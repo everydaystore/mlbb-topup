@@ -1,90 +1,155 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>MLBB Top-Up</title>
+  <title>Everyday Store – MLBB Top-Up</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       background: #0f172a;
+      color: #ffffff;
       font-family: Arial, sans-serif;
-      color: #fff;
       padding: 20px;
     }
-    h1 {
-      text-align: center;
-      color: #38bdf8;
-    }
     .box {
-      max-width: 500px;
+      max-width: 420px;
       margin: auto;
       background: #020617;
       padding: 20px;
-      border-radius: 10px;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
+      border-radius: 12px;
     }
     input, select, button {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
+      margin-top: 10px;
       border-radius: 6px;
       border: none;
     }
     button {
       background: #22c55e;
-      color: #000;
-      font-size: 16px;
-      margin-top: 20px;
+      font-weight: bold;
       cursor: pointer;
     }
-    .note {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 10px;
-      text-align: center;
+    .admin-btn {
+      background: #2563eb;
+      margin-top: 15px;
     }
   </style>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("FVNPlnz0ARkBVYJC5");
+    })();
+  </script>
 </head>
+
 <body>
 
-  <h1>MLBB Top-Up Order</h1>
+<h2 align="center">MLBB Top-Up Order</h2>
 
-  <div class="box">
-    <label>Player ID</label>
-    <input type="text" placeholder="Enter Player ID">
+<form class="box" onsubmit="sendOrder(event)">
 
-    <label>Server ID</label>
-    <input type="text" placeholder="Enter Server ID">
+  <input id="player" placeholder="Player ID" required>
+  <input id="server" placeholder="Server ID" required>
 
-    <label>State</label>
-    <select>
-      <option>Select State</option>
-      <option>West Bengal</option>
-      <option>Uttarakhand</option>
-      <option>Delhi</option>
-      <option>Maharashtra</option>
-      <option>Other</option>
-    </select>
+  <select id="state" required>
+    <option value="">Select State</option>
+    <option>Andhra Pradesh</option>
+    <option>Assam</option>
+    <option>Bihar</option>
+    <option>Delhi</option>
+    <option>Gujarat</option>
+    <option>Karnataka</option>
+    <option>Maharashtra</option>
+    <option>Tamil Nadu</option>
+    <option>West Bengal</option>
+    <option>Other</option>
+  </select>
 
-    <label>Recharge Pack</label>
-    <select>
-      <option>3 Diamonds – ₹8</option>
-      <option>5 Diamonds – ₹12</option>
-      <option>11 Diamonds – ₹23</option>
-      <option>22 Diamonds – ₹35</option>
-      <option>55 Diamonds – ₹81</option>
-      <option>86 Diamonds – ₹118</option>
-      <option>Starlight Card – ₹265</option>
-    </select>
+  <select id="pack" required>
+    <option value="">Select Pack</option>
 
-    <label>UPI Transaction ID</label>
-    <input type="text" placeholder="Enter UPI TXN ID">
+    <option>Weekly Pass – ₹133</option>
+    <option>2× Weekly Pass – ₹266</option>
+    <option>Starlight Card – ₹265</option>
+    <option>Twilight Pass – ₹790</option>
 
-    <label>Mobile Number</label>
-    <input type="tel" placeholder="Enter Mobile Number">
+    <option>3 Diamonds – ₹8</option>
+    <option>5 Diamonds – ₹12</option>
+    <option>11 Diamonds – ₹23</option>
+    <option>22 Diamonds – ₹35</option>
 
-    <button>Submit Order</button>
+    <option>56 Diamonds – ₹81</option>
+    <option>86 Diamonds – ₹118</option>
+    <option>112 Diamonds – ₹155</option>
+    <option>172 Diamonds – ₹227</option>
+    <option>257 Diamonds – ₹319</option>
+
+    <option>514 Diamonds – ₹637</option>
+    <option>706 Diamonds – ₹855</option>
+    <option>1050 Diamonds – ₹1275</option>
+    <option>1135 Diamonds – ₹1385</option>
+    <option>2195 Diamonds – ₹2560</option>
+    <option>3688 Diamonds – ₹4475</option>
+    <option>5532 Diamonds – ₹6450</option>
+    <option>9288 Diamonds – ₹10950</option>
+  </select>
+
+  <input id="upi" placeholder="UPI Transaction ID" required>
+  <input id="mobile" placeholder="Mobile Number" required>
+  <input id="customer_email" type="email" placeholder="Customer Email" required>
+
+  <button type="submit">Submit Order</button>
+
+  <!-- ADMIN ONLY -->
+  <button type="button" class="admin-btn" onclick="sendSuccess()">
+    Send Top-Up Success (Admin)
+  </button>
+
+</form>
+
+<script>
+function sendOrder(e) {
+  e.preventDefault();
+
+  emailjs.send(
+    "service_onqhkg",
+    "template_dndaaon",
+    {
+      player_id: player.value,
+      server_id: server.value,
+      state: state.value,
+      pack: pack.value,
+      upi: upi.value,
+      mobile: mobile.value,
+      email: "storeeveryday26@gmail.com"
+    }
+  ).then(
+    () => alert("✅ Order submitted. Please wait."),
+    (err) => alert("❌ Failed: " + err.text)
+  );
+}
+
+function sendSuccess() {
+  emailjs.send(
+    "service_onqhkg",
+    "PASTE_SUCCESS_TEMPLATE_ID_HERE",
+    {
+      player_id: player.value,
+      server_id: server.value,
+      pack: pack.value,
+      to_email: customer_email.value
+    }
+  ).then(
+    () => alert("🎉 Success email sent to customer"),
+    (err) => alert("❌ Failed: " + err.text)
+  );
+}
+</script>
+
+</body>
+</html>
