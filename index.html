@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MLBB Top-Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #0f172a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #38bdf8;
+    }
+    .box {
+      max-width: 500px;
+      margin: auto;
+      background: #020617;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      background: #22c55e;
+      color: #000;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>MLBB Top-Up Order</h1>
+
+  <div class="box">
+    <label>Player ID</label>
+    <input type="text" placeholder="Enter Player ID">
+
+    <label>Server ID</label>
+    <input type="text" placeholder="Enter Server ID">
+
+    <label>State</label>
+    <select>
+      <option>Select State</option>
+      <option>West Bengal</option>
+      <option>Uttarakhand</option>
+      <option>Delhi</option>
+      <option>Maharashtra</option>
+      <option>Other</option>
+    </select>
+
+    <label>Recharge Pack</label>
+    <select>
+      <option>3 Diamonds – ₹8</option>
+      <option>5 Diamonds – ₹12</option>
+      <option>11 Diamonds – ₹23</option>
+      <option>22 Diamonds – ₹35</option>
+      <option>55 Diamonds – ₹81</option>
+      <option>86 Diamonds – ₹118</option>
+      <option>Starlight Card – ₹265</option>
+    </select>
+
+    <label>UPI Transaction ID</label>
+    <input type="text" placeholder="Enter UPI TXN ID">
+
+    <label>Mobile Number</label>
+    <input type="tel" placeholder="Enter Mobile Number">
+
+    <button>Submit Order</button>
