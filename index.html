@@ -109,30 +109,64 @@ button {
 <div class="qr-box">
   <img id="qrImage">
 </div>
-
-<button type="button" onclick="alert('Payment received! Order sent to admin.')">
+<button type="button" onclick="sendOrder()">
   Order After Payment
 </button>
 
+<div class="note">
+  ⚠️ Please tap SEND in Gmail to complete your order
+</div>
+<script>
+function sendOrder() {
+  const inputs = document.querySelectorAll("input");
+  const playerID = inputs[0].value;
+  const serverID = inputs[1].value;
+  const mobile = inputs[2].value;
+
+  const packSelect = document.getElementById("pack");
+  const packName = packSelect.options[packSelect.selectedIndex].text;
+
+  if (!playerID || !serverID || !mobile || packSelect.value === "") {
+    alert("Please fill all details and select a pack.");
+    return;
+  }
+
+  const subject = encodeURIComponent("New MLBB Order");
+  const body = encodeURIComponent(
+    "New Order Received\n\n" +
+    "Player ID: " + playerID + "\n" +
+    "Server ID: " + serverID + "\n" +
+    "Mobile Number: " + mobile + "\n" +
+    "Pack: " + packName + "\n\n" +
+    "Payment Done via QR"
+  );
+
+    window.location.href =
+"mailto:storeeveryday26@gmail.com?subject=" + subject + "&body=" + body;
+}
+</script>
+
+
 </form>
 
-<div class="note">
-Select pack → QR appears → Scan & Pay → Submit
-</div>
-</div>
 
-<script>
+<div class="note">
+ℹ️ Order confirmation is sent via Gmail for security.<br>
+No data is stored without your consent.
+</div>
+<scrip>
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
   if (pack.value !== "") {
-    qr.src = "qr/" + pack.value;
-    qr.style.display = "block";
-  } else {
-    qr.style.display = "none";
-  }
+  qr.src = "qr/" + pack.value;
+  qr.style.display = "block";
+} else {
+  qr.style.display = "none";
 }
 </script>
+
+  
 </body>
 </html>
