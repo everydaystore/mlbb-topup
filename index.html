@@ -137,6 +137,7 @@ Send Top-Up Success (Admin)
 <script>
 function sendOrder(e) {
   e.preventDefault();
+  alert("SendOrder function triggered");
 
   emailjs.send(
     "service_onqhkg",
@@ -145,11 +146,13 @@ function sendOrder(e) {
       player_id: player.value,
       server_id: server.value,
       state: state.value,
-      pack: pack.options[pack.selectedIndex].text,     upi: upi.value,
+      pack: pack.options[pack.selectedIndex].text,
+      upi: upi.value,
       mobile: mobile.value,
       email: "storeeveryday26@gmail.com"
     }
-  ).then(
+  )
+    : .then(
     () => alert("✅ Order submitted. Please wait."),
     (err) => alert("❌ Failed: " + err.text)
   );
