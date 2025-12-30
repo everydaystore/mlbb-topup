@@ -2,133 +2,127 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MLBB Top-Up Order</title>
+<title>Everyday Store – MLBB Top-Up</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
-  background: #0b0f2a;
+  background:#0f172a;
   font-family: Arial, sans-serif;
-  color: white;
+  color:#fff;
 }
-
-.box {
-  max-width: 420px;
-  margin: 30px auto;
-  background: #121845;
-  padding: 20px;
-  border-radius: 12px;
+.container {
+  max-width:420px;
+  margin:30px auto;
+  background:#111827;
+  padding:20px;
+  border-radius:12px;
 }
-
 h2 {
-  text-align: center;
-  margin-bottom: 20px;
+  text-align:center;
+  margin-bottom:15px;
 }
-
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 15px;
+select, input, button {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  font-size:15px;
 }
-
+select, input {
+  background:#1f2937;
+  color:white;
+}
 button {
-  background: #2ecc71;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
+  background:#22c55e;
+  color:black;
+  font-weight:bold;
 }
-
-button:hover {
-  opacity: 0.9;
+.qr-box {
+  text-align:center;
+  margin-top:20px;
+}
+.qr-box img {
+  width:260px;
+  display:none;
+  border-radius:12px;
+}
+.note {
+  font-size:12px;
+  color:#cbd5e1;
+  text-align:center;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-<h2>MLBB Top-Up Order</h2>
+<div class="container">
+<h2>Everyday Store</h2>
 
-<form onsubmit="sendGmail(event)">
+<form>
 
-<input id="player" placeholder="Player ID" required>
-<input id="server" placeholder="Server ID" required>
+<input placeholder="MLBB Player ID" required>
+<input placeholder="Server ID" required>
+<input placeholder="Mobile Number" required>
 
-<select id="state" required>
-  <option value="">Select State</option>
-  <option>Bihar</option>
-  <option>Delhi</option>
-  <option>Maharashtra</option>
-  <option>West Bengal</option>
-  <option>Other</option>
-</select>
-
-<select id="pack" required>
+<select id="pack" required onchange="updateQR()">
   <option value="">Select Pack</option>
 
   <!-- PASSES -->
-  <option>Weekly Pass – ₹133</option>
-  <option>Twilight Pass – ₹790</option>
+  <option value="qr-weekly.png">Weekly Pass – ₹133</option>
+  <option value="qr-twilight.png">Twilight Pass – ₹790</option>
 
   <!-- SMALL -->
-  <option>3 Diamonds – ₹8</option>
-  <option>5 Diamonds – ₹12</option>
-  <option>11 Diamonds – ₹23</option>
-  <option>22 Diamonds – ₹35</option>
+  <option value="qr-3.png">3 Diamonds – ₹8</option>
+  <option value="qr-5.png">5 Diamonds – ₹12</option>
+  <option value="qr-11.png">11 Diamonds – ₹23</option>
+  <option value="qr-22.png">22 Diamonds – ₹35</option>
 
   <!-- MEDIUM -->
-  <option>55 Diamonds – ₹81</option>
-  <option>86 Diamonds – ₹118</option>
-  <option>112 Diamonds – ₹155</option>
-  <option>172 Diamonds – ₹227</option>
-  <option>257 Diamonds – ₹319</option>
+  <option value="qr-55.png">55 Diamonds – ₹81</option>
+  <option value="qr-86.png">86 Diamonds – ₹118</option>
+  <option value="qr-112.png">112 Diamonds – ₹155</option>
+  <option value="qr-172.png">172 Diamonds – ₹227</option>
+  <option value="qr-257.png">257 Diamonds – ₹319</option>
 
   <!-- LARGE -->
-  <option>514 Diamonds – ₹637</option>
-  <option>706 Diamonds – ₹855</option>
-  <option>1050 Diamonds – ₹1275</option>
-  <option>1135 Diamonds – ₹1385</option>
-  <option>2195 Diamonds – ₹2560</option>
-  <option>3688 Diamonds – ₹4475</option>
-  <option>5532 Diamonds – ₹6450</option>
-  <option>9288 Diamonds – ₹10950</option>
+  <option value="qr-514.png">514 Diamonds – ₹637</option>
+  <option value="qr-706.png">706 Diamonds – ₹855</option>
+  <option value="qr-1050.png">1050 Diamonds – ₹1275</option>
+  <option value="qr-1135.png">1135 Diamonds – ₹1385</option>
+  <option value="qr-2195.png">2195 Diamonds – ₹2560</option>
+  <option value="qr-3688.png">3688 Diamonds – ₹4475</option>
+  <option value="qr-5532.png">5532 Diamonds – ₹6450</option>
+  <option value="qr-9288.png">9288 Diamonds – ₹10950</option>
 </select>
 
-<input id="upi" placeholder="UPI Transaction ID" required>
-<input id="mobile" placeholder="Mobile Number" required>
-<input id="email" type="email" placeholder="Customer Email" required>
+<div class="qr-box">
+  <img id="qrImage">
+</div>
 
-<button type="submit">Submit Order</button>
+<button type="submit">Order After Payment</button>
 
 </form>
+
+<div class="note">
+Select pack → QR appears → Scan & Pay → Submit
+</div>
 </div>
 
 <script>
-function sendGmail(e) {
-  e.preventDefault();
+function updateQR() {
+  const pack = document.getElementById("pack");
+  const qr = document.getElementById("qrImage");
 
-  const body =
-`NEW MLBB TOP-UP ORDER
-
-Player ID: ${player.value}
-Server ID: ${server.value}
-State: ${state.value}
-Pack: ${pack.value}
-
-UPI Transaction ID: ${upi.value}
-Mobile Number: ${mobile.value}
-Customer Email: ${email.value}
-`;
-
-  const mailto =
-    "mailto:storeeveryday26@gmail.com" +
-    "?subject=New MLBB Top-Up Order" +
-    "&body=" + encodeURIComponent(body);
-
-  window.location.href = mailto;
+  if (pack.value !== "") {
+    qr.src = "qr/" + pack.value;
+    qr.style.display = "block";
+  } else {
+    qr.style.display = "none";
+  }
 }
 </script>
 
