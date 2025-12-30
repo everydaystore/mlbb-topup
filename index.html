@@ -1,179 +1,134 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Everyday Store – MLBB Top-Up</title>
+<meta charset="UTF-8">
+<title>MLBB Top-Up Order</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  background: #0b0f2a;
+  font-family: Arial, sans-serif;
+  color: white;
+}
 
-  <style>
-    body {
-      background: #0f172a;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .box {
-      max-width: 420px;
-      margin: auto;
-      background: #020617;
-      padding: 20px;
-      border-radius: 12px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: none;
-    }
-    button {
-      background: #22c55e;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .admin-btn {
-      background: #2563eb;
-      margin-top: 15px;
-    }
-  </style>
+.box {
+  max-width: 420px;
+  margin: 30px auto;
+  background: #121845;
+  padding: 20px;
+  border-radius: 12px;
+}
 
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function () {
-      emailjs.init("FVNPlnz0ARkBVYJC5");
-    })();
-  </script>
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 15px;
+}
+
+button {
+  background: #2ecc71;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+</style>
 </head>
 
 <body>
 
-<h2 align="center">MLBB Top-Up Order</h2>
+<div class="box">
+<h2>MLBB Top-Up Order</h2>
 
-<form class="box" onsubmit="sendOrder(event)">
+<form onsubmit="sendGmail(event)">
 
-  <input id="player" placeholder="Player ID" required>
+<input id="player" placeholder="Player ID" required>
 <input id="server" placeholder="Server ID" required>
-<input id="mobile" placeholder="Mobile Number" required>
 
-  <select id="state" required>
+<select id="state" required>
   <option value="">Select State</option>
-  <option>Andhra Pradesh</option>
-  <option>Arunachal Pradesh</option>
-  <option>Assam</option>
   <option>Bihar</option>
-  <option>Chhattisgarh</option>
-  <option>Goa</option>
-  <option>Gujarat</option>
-  <option>Haryana</option>
-  <option>Himachal Pradesh</option>
-  <option>Jharkhand</option>
-  <option>Karnataka</option>
-  <option>Kerala</option>
-  <option>Madhya Pradesh</option>
-  <option>Maharashtra</option>
-  <option>Manipur</option>
-  <option>Meghalaya</option>
-  <option>Mizoram</option>
-  <option>Nagaland</option>
-  <option>Odisha</option>
-  <option>Punjab</option>
-  <option>Rajasthan</option>
-  <option>Sikkim</option>
-  <option>Tamil Nadu</option>
-  <option>Telangana</option>
-  <option>Tripura</option>
-  <option>Uttar Pradesh</option>
-  <option>Uttarakhand</option>
-  <option>West Bengal</option>
   <option>Delhi</option>
+  <option>Maharashtra</option>
+  <option>West Bengal</option>
+  <option>Other</option>
 </select>
 
-  <select id="pack" required onchange="updateQR()">
+<select id="pack" required>
   <option value="">Select Pack</option>
 
   <!-- PASSES -->
-  <option value="qr-weekly.png">Weekly Pass – ₹133</option>
-  <option value="qr-twilight.png">Twilight Pass – ₹790</option>
-  <option value="qr-starlight.png">Starlight Card</option>
+  <option>Weekly Pass – ₹133</option>
+  <option>Twilight Pass – ₹790</option>
 
   <!-- SMALL -->
-  <option value="qr-3.png">3 Diamonds – ₹8</option>
-  <option value="qr-5.png">5 Diamonds – ₹12</option>
-  <option value="qr-11.png">11 Diamonds – ₹23</option>
-  <option value="qr-22.png">22 Diamonds – ₹35</option>
+  <option>3 Diamonds – ₹8</option>
+  <option>5 Diamonds – ₹12</option>
+  <option>11 Diamonds – ₹23</option>
+  <option>22 Diamonds – ₹35</option>
 
   <!-- MEDIUM -->
-  <option value="qr-55.png">55 Diamonds – ₹81</option>
-  <option value="qr-86.png">86 Diamonds – ₹118</option>
-  <option value="qr-112.png">112 Diamonds – ₹155</option>
-  <option value="qr-172.png">172 Diamonds – ₹227</option>
-  <option value="qr-257.png">257 Diamonds – ₹319</option>
+  <option>55 Diamonds – ₹81</option>
+  <option>86 Diamonds – ₹118</option>
+  <option>112 Diamonds – ₹155</option>
+  <option>172 Diamonds – ₹227</option>
+  <option>257 Diamonds – ₹319</option>
 
   <!-- LARGE -->
-  <option value="qr-514.png">514 Diamonds – ₹637</option>
-  <option value="qr-706.png">706 Diamonds – ₹855</option>
-  <option value="qr-1050.png">1050 Diamonds – ₹1275</option>
-  <option value="qr-1135.png">1135 Diamonds – ₹1385</option>
-  <option value="qr-2195.png">2195 Diamonds – ₹2560</option>
-  <option value="qr-3688.png">3688 Diamonds – ₹4475</option>
-  <option value="qr-5532.png">5532 Diamonds – ₹6450</option>
-  <option value="qr-9288.png">9288 Diamonds – ₹10950</option>
-  </select>
-  <i id="qrImage" style="display:none; width:220px; margin:15px auto;">
+  <option>514 Diamonds – ₹637</option>
+  <option>706 Diamonds – ₹855</option>
+  <option>1050 Diamonds – ₹1275</option>
+  <option>1135 Diamonds – ₹1385</option>
+  <option>2195 Diamonds – ₹2560</option>
+  <option>3688 Diamonds – ₹4475</option>
+  <option>5532 Diamonds – ₹6450</option>
+  <option>9288 Diamonds – ₹10950</option>
+</select>
 
-    <inp id="customer_email" type="email" placeholder="Customer Email" required>
+<input id="upi" placeholder="UPI Transaction ID" required>
+<input id="mobile" placeholder="Mobile Number" required>
+<input id="email" type="email" placeholder="Customer Email" required>
 
-  <button type="submit">Submit Order</button>
-
-<button type="button" id="successBtn" class="admin-btn" onclick="sendSuccess()" style="display:none;">
-Send Top-Up Success (Admin)
-</button>
+<button type="submit">Submit Order</button>
 
 </form>
+</div>
 
 <script>
-function sendOrder(e) {
+function sendGmail(e) {
   e.preventDefault();
 
-  emailjs.send(
-    "service_onqhkg",      // your service ID
-    "template_dndaaon",    // your template ID
-    {
-      player_id: player.value,
-      server_id: server.value,
-      state: state.value,
-      pack: pack.options[pack.selectedIndex].text,
-      upi: upi.value,
-      mobile: mobile.value,
-      email: "storeeveryday26@gmail.com"
-    }
-  ).then(
-    () => alert("✅ Order sent to admin email"),
-    (err) => alert("❌ Email failed: " + err.text)
-  );
-}
-    : .then(
-    () => alert("✅ Order submitted. Please wait."),
-    (err) => alert("❌ Failed: " + err.text)
-  );
-}
+  const body =
+`NEW MLBB TOP-UP ORDER
 
-function sendSuccess() {
-  emailjs.send(
-    "service_onqhkg",
-    "PASTE_SUCCESS_TEMPLATE_ID_HERE",
-    {
-      player_id: player.value,
-      server_id: server.value,
-      pack: pack.value,
-      to_email: customer_email.value
-    }
-  ).then(
-    () => alert("🎉 Success email sent to customer"),
-    (err) => alert("❌ Failed: " + err.text)
-  );
+Player ID: ${player.value}
+Server ID: ${server.value}
+State: ${state.value}
+Pack: ${pack.value}
+
+UPI Transaction ID: ${upi.value}
+Mobile Number: ${mobile.value}
+Customer Email: ${email.value}
+`;
+
+  const mailto =
+    "mailto:storeeveryday26@gmail.com" +
+    "?subject=New MLBB Top-Up Order" +
+    "&body=" + encodeURIComponent(body);
+
+  window.location.href = mailto;
 }
 </script>
 
