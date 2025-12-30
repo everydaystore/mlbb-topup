@@ -121,10 +121,9 @@
   <option value="qr-5532.png">5532 Diamonds – ₹6450</option>
   <option value="qr-9288.png">9288 Diamonds – ₹10950</option>
   </select>
+  <i id="qrImage" style="display:none; width:220px; margin:15px auto;">
 
-    <input id="upi" placeholder="UPI Transaction ID" required>
-  <input id="mobile" placeholder="Mobile Number" required>
-  <input id="customer_email" type="email" placeholder="Customer Email" required>
+    <inp id="customer_email" type="email" placeholder="Customer Email" required>
 
   <button type="submit">Submit Order</button>
 
@@ -137,11 +136,10 @@ Send Top-Up Success (Admin)
 <script>
 function sendOrder(e) {
   e.preventDefault();
-  alert("SendOrder function triggered");
 
   emailjs.send(
-    "service_onqhkg",
-    "template_dndaaon",
+    "service_onqhkg",      // your service ID
+    "template_dndaaon",    // your template ID
     {
       player_id: player.value,
       server_id: server.value,
@@ -151,7 +149,11 @@ function sendOrder(e) {
       mobile: mobile.value,
       email: "storeeveryday26@gmail.com"
     }
-  )
+  ).then(
+    () => alert("✅ Order sent to admin email"),
+    (err) => alert("❌ Email failed: " + err.text)
+  );
+}
     : .then(
     () => alert("✅ Order submitted. Please wait."),
     (err) => alert("❌ Failed: " + err.text)
