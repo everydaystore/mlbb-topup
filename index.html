@@ -159,11 +159,12 @@ function updateQR() {
   const qr = document.getElementById("qrImage");
 
   if (pack.value !== "") {
-    qr.src = "qr/" + pack.value;
+    qr.src = "mlbb-topup/qr/" + pack.value;
     qr.style.display = "block";
   } else {
     qr.style.display = "none";
   }
+}
 }
 </script>
 </body>
