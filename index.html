@@ -153,19 +153,18 @@ function sendOrder() {
 ℹ️ Order confirmation is sent via Gmail for security.<br>
 No data is stored without your consent.
 </div>
-<scrip>
+<script>
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
   if (pack.value !== "") {
-  qr.src = "qr/" + pack.value;
-  qr.style.display = "block";
-} else {
-  qr.style.display = "none";
+    qr.src = "qr/" + pack.value;
+    qr.style.display = "block";
+  } else {
+    qr.style.display = "none";
+  }
 }
 </script>
-
-  
 </body>
 </html>
