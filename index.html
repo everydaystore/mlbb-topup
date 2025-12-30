@@ -105,15 +105,20 @@ button {
   <option value="qr-9288.png">9288 Diamonds – ₹10950</option>
 </select>
 
-<div class="qr-box">
+<div> class="qr-box">
   <img id="qrImage" style="display:none;" />
 </div>
+
+<div class="note">
+📷 QR will appear automatically after selecting a pack
+</div>
+
 <button type="button" onclick="sendOrder()">
   Order After Payment
 </button>
 
 <div class="note">
-  ⚠️ Please tap SEND in Gmail to complete your order
+⚠️ Please tap SEND in Gmail to complete your order
 </div>
 <script>
 function sendOrder() {
