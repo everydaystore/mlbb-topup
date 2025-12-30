@@ -44,9 +44,12 @@ button {
   margin-top:20px;
 }
 .qr-box img {
-  width: 260px;
+  width: 100%;
+  max-width: 260px;   /* controls max size */
+  height: auto;
   border-radius: 12px;
-  margin-top: 15px;
+  margin: 15px auto 0;
+  display: block;
   pointer-events: none;
 }
 .note {
@@ -104,7 +107,9 @@ button {
   <img id="qrImage">
 </div>
 
-<button type="button">Order After Payment</button>
+<button type="button" onclick="alert('Payment received! Order sent to admin.')">
+  Order After Payment
+</button>
 
 </form>
 
