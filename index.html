@@ -52,8 +52,7 @@ button {
   height: auto;
   border-radius: 12px;
   margin: 15px auto;
-  display: block;
-  pointer-events: none;   /* 👈 stops QR blocking clicks */
+  pointer-events: none;
 }
 .note {
   font-size:12px;
@@ -107,7 +106,7 @@ button {
 </select>
 
 <div class="qr-box">
-  <img id="qrImage">
+  <img id="qrImage" style="display:none;" />
 </div>
 <button type="button" onclick="sendOrder()">
   Order After Payment
