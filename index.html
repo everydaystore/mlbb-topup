@@ -112,7 +112,8 @@ TEST QR (click me)
 </select>
 
 <div class="qr-box">
-  <img id="qrImage" alt="QR Code" style="display:none;">
+  <img id="qrImage" alt="QR Code">
+  
 </div>
 
 <div class="note">⚠ QR appears automatically after selecting a pack</div>
@@ -200,18 +201,18 @@ onSnapshot(storeRef, (snap) => {
     btn.style.opacity = "1";
   }
 });
-
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
-  if (pack.value) {
-    qr.src = pack.value;
-    qr.style.display = "block";
-  } else {
-    qr.style.display = "none";
+  if (!pack.value) {
+    qr.src = "";
+    return;
   }
+
+  qr.src = pack.value + "?t=" + Date.now();
 }
+
 
 
 
