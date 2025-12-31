@@ -182,7 +182,9 @@ function sendOrder(){
       "Pack: " + pack.options[pack.selectedIndex].text
     );
 
-  window.location.href = mailLink;
+  185 setTimeout(() => {
+186   window.location.href = mailLink;
+187 }, 1500);
 
   setTimeout(()=>{
     document.getElementById("processingBox").style.display="none";
