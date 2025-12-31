@@ -112,23 +112,25 @@ button{
   <option value="qr/qr-weekly-172.png">Weekly Pass + 172 Diamonds – ₹360</option>
   <option value="qr/qr-weekly-2.png">2 Weekly Passes – ₹366</option>
 </select>
-
 <div class="qr-box">
-  <img id="qrImage">
+  <img id="qrImage" alt="QR Code">
 </div>
 
 <div class="note">⚠️ QR appears automatically after selecting a pack</div>
 
 <button onclick="sendOrder()">Order After Payment</button>
 
-<div id="processingBox">⏳ Processing your order, please wait...</div>
+<div id="processingBox" style="display:none;">
+  ⏳ Processing your order, please wait...
+</div>
 
-<div id="successBox">
+<div id="successBox" style="display:none;">
   ✅ Order placed successfully<br>
   <b>Order ID:</b> <span id="orderIdText"></span><br>
   Please tap <b>SEND</b> in Gmail to confirm.
 </div>
-
+  
+  <!-- SOCIAL ICONS -->
 <div class="social-icons">
   <a href="https://www.instagram.com/everyday_store_official" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
@@ -141,8 +143,6 @@ button{
   </a>
 </div>
 
-</div>
-
 <script>
 function updateQR(){
   const pack = document.getElementById("pack");
@@ -150,8 +150,8 @@ function updateQR(){
 
   if(pack.value){
     qr.src = pack.value;
-    qr.style.display = "block";
-  }else{
+    qr.style.display = "inline-block";
+  } else {
     qr.style.display = "none";
   }
 }
@@ -182,17 +182,15 @@ function sendOrder(){
       "Pack: " + pack.options[pack.selectedIndex].text
     );
 
-  185 setTimeout(() => {
-186   window.location.href = mailLink;
-187 }, 1500);
+  setTimeout(() => {
+    document.getElementById("processingBox").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+  }, 1200);
 
-  setTimeout(()=>{
-    document.getElementById("processingBox").style.display="none";
-    document.getElementById("successBox").style.display="block";
-  },1200);
+  setTimeout(() => {
+    window.location.href = mailLink;
+  }, 2000);
 }
-
-console.log("Version 1.0.1");
 </script>
 
 </body>
