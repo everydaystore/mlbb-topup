@@ -89,7 +89,7 @@ button{
   <option value="qr-11.png">11 Diamonds - ₹23</option>
   <option value="qr-22.png">22 Diamonds - ₹35</option>
 
-  <option value="qr-56.png">56 Diamonds - ₹81</option>
+  <option value="qr-55.png">55 Diamonds - ₹81</option>
   <option value="qr-86.png">86 Diamonds - ₹118</option>
   <option value="qr-112.png">112 Diamonds - ₹155</option>
   <option value="qr-172.png">172 Diamonds - ₹227</option>
@@ -163,15 +163,15 @@ function sendOrder(){
   document.getElementById("processingBox").style.display = "block";
 
   const mailLink =
-    "mailto:storeeveryday26@gmail.com" +
-    "?subject=New MLBB Order" +
-    "&body=" + encodeURIComponent(
-      "Order ID: " + orderId + "\n" +
-      "Player ID: " + playerID + "\n" +
-      "Server ID: " + serverID + "\n" +
-      "Mobile: " + mobile + "\n" +
-      "Pack: " + pack.options[pack.selectedIndex].text
-    );
+  "mailto:storeeveryday26@gmail.com" +
+  "?subject=New MLBB Order" +
+"&body=" + encodeURIComponent(
+    "Order ID: " + orderId + "\n" +
+    "Player ID: " + playerID + "\n" +
+    "Server ID: " + serverID + "\n" +
+    "Mobile: " + mobile + "\n" +
+    "Pack: " + pack.options[pack.selectedIndex].text
+  );
 
   window.location.href = mailLink;
 
@@ -181,6 +181,8 @@ function sendOrder(){
   }, 1200);
 }
 </script>
-
+<script>
+console.log("Version 1.0.1");
+</script>
 </body>
 </html>
