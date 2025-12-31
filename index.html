@@ -147,6 +147,13 @@ button{
 </div>
 
 <script>
+  if (sessionStorage.getItem("orderDone")) {
+    alert("⚠️ Order already submitted. Please wait for confirmation.");
+    window.location.href = "done.html";
+  }
+</script>
+  
+<script>
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
@@ -199,11 +206,15 @@ function sendOrder() {
     "Server ID: " + serverID + "\n" +
     "Mobile: " + mobile + "\n" +
     "Pack: " + packSelect.options[packSelect.selectedIndex].text
-  );
+ ) 
 
+    // ✅ LOCK ORDER
+sessionStorage.setItem("orderDone", "true");
+
+// 📧 OPEN GMAIL
 window.location.href = mailLink;
 
-// 🔒 FORCE REDIRECT AFTER GMAIL
+// 🔁 REDIRECT TO DONE PAGE
 setTimeout(() => {
   window.location.href = "done.html";
 }, 800);
