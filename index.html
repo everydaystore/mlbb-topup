@@ -64,6 +64,12 @@ button {
   text-align:center;
   margin-top:10px;
 }
+  .processing {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
   .social-icons {
   display: flex;
   justify-content: center;
@@ -184,28 +190,14 @@ button {
 <script>
 function sendOrder() {
 
-  // CREATE ORDER ID FIRST
-  const orderID = "ORD-" + Date.now();
-  const orderData = {
-  orderID: orderID,
-  playerID: playerID,
-  serverID: serverID,
-  mobile: mobile,
-  pack: packName,
-  time: new Date().toLocaleString()
-};
-
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-orders.push(orderData);
-localStorage.setItem("orders", JSON.stringify(orders));
-
   // SHOW PROCESSING
   document.getElementById("processingBox").style.display = "block";
 
+  // GET INPUTS
   const inputs = document.querySelectorAll("input");
-  const playerID = inputs[0].value;
-  const serverID = inputs[1].value;
-  const mobile = inputs[2].value;
+  const playerID = inputs[0].value.trim();
+  const serverID = inputs[1].value.trim();
+  const mobile = inputs[2].value.trim();
 
   const packSelect = document.getElementById("pack");
   const packName = packSelect.options[packSelect.selectedIndex].text;
@@ -216,38 +208,53 @@ localStorage.setItem("orders", JSON.stringify(orders));
     return;
   }
 
+  // CREATE ORDER ID
+  const orderID = "ORD-" + Date.now();
+
+  // SAVE ORDER LOCALLY
+  const orderData = {
+    orderID,
+    playerID,
+    serverID,
+    mobile,
+    pack: packName,
+    time: new Date().toLocaleString()
+  };
+
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders.push(orderData);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // EMAIL
   const subject = encodeURIComponent("New MLBB Order");
   const body = encodeURIComponent(
-    "New Order Received\n\n" +
-    "Order ID: " + orderID + "\n" +
-    "Player ID: " + playerID + "\n" +
-    "Server ID: " + serverID + "\n" +
-    "Mobile Number: " + mobile + "\n" +
-    "Pack: " + packName + "\n\n" +
-    "Payment Done via QR"
-  );
-  document.getElementById("processingBox").style.display = "none";
+  "New Order Received\n\n" +
+  "Order ID: " + orderID + "\n" +
+  "Player ID: " + playerID + "\n" +
+  "Server ID: " + serverID + "\n" +
+  "Mobile: " + mobile + "\n" +
+  "Pack: " + packName + "\n\n" +
+  "Payment Done via QR"
+);
+  
   // SHOW SUCCESS
+document.getElementById("processingBox").style.display = "none";
   document.getElementById("successBox").style.display = "block";
   document.getElementById("orderIdText").innerText = orderID;
 
   // OPEN GMAIL
-  setTimeout(function () {
+  setTimeout(() => {
     window.location.href =
       "mailto:storeeveryday26@gmail.com?subject=" + subject + "&body=" + body;
   }, 1000);
 }
 </script>
-
 <div id="successBox" class="note" style="display:none;">
-  ✅ Order placed successfully!<br>
+  ✅ Order placed successfully!<br><br>
   🆔 <b>Order ID:</b> <span id="orderIdText"></span><br><br>
   Please tap <b>SEND</b> in Gmail to confirm.
 </div>
-     <div class="note">
-ℹ️ Order confirmation is sent via Gmail for security.<br>
-No data is stored without your consent.
-</div>
+
 <script>
 function updateQR() {
   const pack = document.getElementById("pack");
@@ -260,7 +267,6 @@ function updateQR() {
     qr.style.display = "none";
   }
 }
-</script> 
-     
+</script>
 </body>
 </html>
