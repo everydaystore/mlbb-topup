@@ -191,6 +191,7 @@ Please tap <b>SEND</b> in Gmail to confirm.
 </div>
 
 <script>
+<script>
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
@@ -202,48 +203,18 @@ function updateQR() {
     qr.style.display = "none";
   }
 }
-</script>
 
-<script>
 function sendOrder() {
   const processingBox = document.getElementById("processingBox");
   processingBox.style.display = "block";
 
-  const inputs = document.querySelectorAll("input");
-  const playerID = inputs[0].value.trim();
-  const serverID = inputs[1].value.trim();
-  const mobile = inputs[2].value.trim();
-
-  const packSelect = document.getElementById("pack");
-  const packName = packSelect.options[packSelect.selectedIndex].text;
-
-  if (!playerID || !serverID || !mobile || packSelect.value === "") {
-    alert("Please fill all details and select a pack");
-    processingBox.style.display = "none";
-    return;
-  }
-
-  const orderID = "ORD-" + Date.now();
-
   setTimeout(() => {
     processingBox.style.display = "none";
     document.getElementById("successBox").style.display = "block";
-    document.getElementById("orderIdText").innerText = orderID;
-
-    window.location.href =
-      "mailto:storeeveryday26@gmail.com?subject=New MLBB Order&body=Order ID: " +
-      orderID;
+    document.getElementById("orderIdText").innerText =
+      "ORD-" + Date.now();
   }, 1200);
 }
-</script>
-
-  if (pack.value !== "") {
-    qr.src = "./qr/" + pack.value;
-    qr.style.display = "block";
-  } else {
-    qr.style.display = "none";
-  }
-</scr
 </script>
 </body>
 </html>
