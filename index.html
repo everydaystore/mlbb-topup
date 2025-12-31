@@ -145,13 +145,33 @@ button{
 </div>
 
 </div>
+<button type="button" onclick="sendOrder()">Order After Payment</button>
 
+<p style="text-align:center;color:#f1c40f;font-size:13px;margin-top:8px;">
+⚠️ After clicking Order, tap the <b>RED “SEND ORDER VIA GMAIL”</b> button to complete order
+</p>
+
+<a id="mailBtn" target="_blank" style="display:none; text-decoration:none;">
+  <button type="button" style="
+    width:100%;
+    margin-top:12px;
+    background:#ff4b4b;
+    color:white;
+    font-weight:bold;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    font-size:16px;
+    cursor:pointer;
+  ">
+    📧 SEND ORDER VIA GMAIL
+  </button>
+</a>
 <script>
-  if (sessionStorage.getItem("orderDone")) {
-    alert("⚠️ Order already submitted. Please wait for confirmation.");
-    window.location.href = "done.html";
-  }
-</script>
+   if (sessionStorage.getItem("orderDone")) {
+  alert("⚠️ Order already submitted. Please wait for confirmation.");
+  window.location.href = "done.html";
+}
   
 <script>
 function updateQR() {
