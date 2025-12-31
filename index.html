@@ -116,12 +116,19 @@ button{
 
 <button onclick="sendOrder()">Order After Payment</button>
 
+<a href="https://wa.me/917679393645?text=Join%20our%20Everyday%20Store%20WhatsApp%20Group"
+   target="_blank">
+  <button style="background:#25D366; color:white; margin-top:10px; font-weight:bold;">
+    Join WhatsApp Store
+  </button>
+</a>
+
 <div id="processingBox">⏳ Processing your order, please wait...</div>
 
 <div id="successBox">
-✅ Order placed successfully<br>
-<b>Order ID:</b> <span id="orderIdText"></span><br>
-Please tap <b>SEND</b> in Gmail to confirm.
+  ✅ Order placed successfully<br>
+  <b>Order ID:</b> <span id="orderIdText"></span><br>
+  Please tap <b>SEND</b> in Gmail to confirm.
 </div>
 
 <div class="social-icons">
@@ -134,38 +141,27 @@ Please tap <b>SEND</b> in Gmail to confirm.
   <a href="https://wa.me/917679393645" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
   </a>
-  <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-  </a>
-</div> <!-- end of social-icons -->   <!-- line ~140 -->
-
-<a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
-  <button style="background:#25D366; color:white; margin-top:10px;">
-    Join WhatsApp Store
-  </button>
-</a>
 </div>
-
 <script>
-function updateQR(){
+function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
-  if(pack.value){
+  if (pack.value) {
     qr.src = pack.value;
     qr.style.display = "block";
-  }else{
+  } else {
     qr.style.display = "none";
   }
 }
 
-function sendOrder(){
+function sendOrder() {
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
   const mobile = document.getElementById("mobile").value.trim();
   const pack = document.getElementById("pack");
 
-  if(!playerID || !serverID || !mobile || !pack.value){
+  if (!playerID || !serverID || !mobile || !pack.value) {
     alert("Please fill all details and select a pack");
     return;
   }
@@ -177,7 +173,8 @@ function sendOrder(){
   const mailLink =
     "mailto:storeeveryday26@gmail.com" +
     "?subject=New MLBB Order" +
-    "&body=" + encodeURIComponent(
+    "&body=" +
+    encodeURIComponent(
       "Order ID: " + orderId + "\n" +
       "Player ID: " + playerID + "\n" +
       "Server ID: " + serverID + "\n" +
@@ -185,16 +182,13 @@ function sendOrder(){
       "Pack: " + pack.options[pack.selectedIndex].text
     );
 
-  setTimeout(()=>{
-  document.getElementById("processingBox").style.display = "none";
-  document.getElementById("successBox").style.display = "block";
-},1200);
+  setTimeout(() => {
+    document.getElementById("processingBox").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+  }, 1200);
 
-  setTimeout(()=>{
+  setTimeout(() => {
     window.open(mailLink, "_blank");
-  },2000);
+  }, 2000);
 }
 </script>
-
-</body>
-</html>
