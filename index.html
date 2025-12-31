@@ -112,9 +112,23 @@ button{
   <img id="qrImage" alt="QR Code" style="display:none;">
 </div>
 
-<div class="note">⚠️ QR appears automatically after selecting a pack</div>
+<div class="note">⚠ QR appears automatically after selecting a pack</div>
 
-<button onclick="sendOrder()">Order After Payment</button>
+<div id="storeStatusMsg"
+style="
+display:none;
+text-align:center;
+margin:12px 0;
+padding:10px;
+border-radius:10px;
+background:#ffdddd;
+color:#b00000;
+font-weight:600;
+">
+🚫 Store is currently closed. Please come back later.
+</div>
+
+<button id="orderBtn" onclick="sendOrder()">Order After Payment</button>
 
 <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD"
    target="_blank"
@@ -162,6 +176,23 @@ button{
   </a>
 </div>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const status = localStorage.getItem("storeStatus");
+
+  const msg = document.getElementById("storeStatusMsg");
+  const btn = document.getElementById("orderBtn");
+
+  if (status === "closed") {
+    msg.style.display = "block";
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+  } else {
+    msg.style.display = "none";
+    btn.disabled = false;
+    btn.style.opacity = "1";
+  }
+});
+
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
@@ -173,6 +204,8 @@ function updateQR() {
     qr.style.display = "none";
   }
 }
+
+
 
 function sendOrder() {
   const playerID = document.getElementById("playerID").value.trim();
@@ -186,6 +219,22 @@ function sendOrder() {
   }
 
   const orderId = "ORD-" + Date.now();
+
+  // ✅ SAVE ORDER TO LOCAL STORAGE
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders.push({
+    orderId: orderId,
+    playerID: playerID,
+    serverID: serverID,
+    mobile: mobile,
+    pack: pack.options[pack.selectedIndex].text,
+    time: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // UI updates
   document.getElementById("orderIdText").innerText = orderId;
   document.getElementById("processingBox").style.display = "block";
 
