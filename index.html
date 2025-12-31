@@ -136,6 +136,7 @@ button{
 </div>
 
 <button type="button" onclick="sendOrder()">Order After Payment</button>
+  
 
 <div id="processingBox">⏳ Processing your order, please wait...</div>
 
@@ -167,52 +168,47 @@ button{
 
 <script>
 function sendOrder() {
-  const playerID = document.getElementById("playerId").value.trim();
-  const serverID = document.getElementById("serverId").value.trim();
-  const mobile   = document.getElementById("mobile").value.trim();
-  const pack     = document.getElementById("pack").value;
+  const  = document.t.getElementBy("playerID").).val.e.tr();
+  const serverID = document.getElementById("serverID").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const packSelect = document.getElementById("pack");
 
-  // ⛔ STOP IF ANY FIELD IS EMPTY
-  if (!playerID || !serverID || !mobile || !pack) {
-    alert("Fill all details before ordering");
-    return; // ⛔ THIS STOPS EVERYTHING
+  if (
+    playerID === "" ||
+    serverID === "" ||
+    mobile === "" ||
+    packSelect.value === ""
+  ) {
+    alert("Please fill all details and select a pack");
+    return;
   }
 
-  // SHOW PROCESSING
-  document.getElementById("processingBox").style.display = "block";
+  // LOCK ORDER
+  sessionStorage.setItem("orderDone", "true");
 
+  const orderId = "ORD-" + Date.now();
+
+  const mailLink =
+    "mailto:storeeveryday26@gmail.com" +
+    "?subject=New MLBB Order" +
+    "&body=" +
+    encodeURIComponent(
+      "Order ID: " + orderId + "\n" +
+      "Player ID: " + playerID + "\n" +
+      "Server ID: " + serverID + "\n" +
+      "Mobile: " + mobile + "\n" +
+      "Pack: " + packSelect.options[packSelect.selectedIndex].text
+    );
+
+  // ✅ OPEN GMAIL — MUST BE FIRST & DIRECT
+  window.location.href = mailLink;
+
+  // ✅ REDIRECT AFTER (SAFE)
   setTimeout(() => {
-    document.getElementById("processingBox").style.display = "none";
-
-    const orderId = "ORD-" + Date.now();
-    document.getElementById("orderIdText").innerText = orderId;
-    document.getElementById("successBox").style.display = "block";
-
-    // ✅ GMAIL OPENS ONLY AFTER VALIDATION
-    setTimeout(() => {
-  window.location.href = "done.html";
-}, 800);
-      const mailLink =
-  "mailto:storeeveryday26@gmail.com" +
-  "?subject=New MLBB Order" +
-  "&body=" + encodeURIComponent(
-    "Order ID: " + orderId + "\n" +
-    "Player ID: " + playerID + "\n" +
-    "Server ID: " + serverID + "\n" +
-    "Mobile: " + mobile + "\n" +
-    "Pack: " + packSelect.options[packSelect.selectedIndex].text
-  );
-
-// ✅ LOCK ORDER
-sessionStorage.setItem("orderDone", "true");
-
-// 📧 OPEN GMAIL (USER ACTION CONTEXT)
-window.location.href = mailLink;
-
-// ⏳ GIVE BROWSER TIME TO OPEN GMAIL
-setTimeout(() => {
-  window.location.replace("done.html");
-}, 2500);
+    window.location.href = "done.html";
+  }, 1500);
+}
+</script>
  
    <script>
    setTimeout(() => {
