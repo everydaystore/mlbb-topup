@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Everyday Store – MLBB</title>
+<title>Everyday Store - MLBB</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial, sans-serif;
   background:#0e1626;
   color:white;
 }
@@ -39,7 +39,7 @@ button{
   margin-top:15px;
 }
 .qr-box img{
-  width:220px;
+  width:260px;
   border-radius:12px;
   display:none;
 }
@@ -51,13 +51,13 @@ button{
 }
 #processingBox{
   display:none;
-  margin-top:10px;
   text-align:center;
+  margin-top:12px;
 }
 #successBox{
   display:none;
-  margin-top:12px;
   text-align:center;
+  margin-top:12px;
   color:#2ecc71;
 }
 .social-icons{
@@ -75,79 +75,48 @@ button{
 <body>
 <div class="container">
 
-<body>
+<h1>Everyday Store</h1>
 
-<div class="container">
-
-  <h1>Everyday Store</h1>
-
-  <!-- INPUTS -->
-  <input type="text" id="playerId" placeholder="Player ID" required>
-<input type="text" id="serverId" placeholder="Server ID" required>
+<input type="text" id="playerID" placeholder="Player ID" required>
+<input type="text" id="serverID" placeholder="Server ID" required>
 <input type="text" id="mobile" placeholder="Mobile Number" required>
 
-  <!-- 🔽 PASTE SELECT HERE -->
-  <select id="pack" onchange="updateQR()" required>
-    <option value="">Select Pack</option>
+<select id="pack" onchange="updateQR()" required>
+  <option value="">Select Pack</option>
 
-    <!-- SMALL PACKS -->
-    <option value="qr-3.png">3 Diamonds - ₹8</option>
-    <option value="qr-5.png">5 Diamonds - ₹12</option>
-    <option value="qr-11.png">11 Diamonds - ₹23</option>
-    <option value="qr-22.png">22 Diamonds - ₹35</option>
+  <option value="qr-3.png">3 Diamonds - ₹8</option>
+  <option value="qr-5.png">5 Diamonds - ₹12</option>
+  <option value="qr-11.png">11 Diamonds - ₹23</option>
+  <option value="qr-22.png">22 Diamonds - ₹35</option>
 
-    <!-- MEDIUM PACKS -->
-    <option value="qr-56.png">56 Diamonds - ₹81</option>
-    <option value="qr-86.png">86 Diamonds - ₹118</option>
-    <option value="qr-112.png">112 Diamonds - ₹155</option>
-    <option value="qr-172.png">172 Diamonds - ₹227</option>
-    <option value="qr-257.png">257 Diamonds - ₹319</option>
+  <option value="qr-56.png">56 Diamonds - ₹81</option>
+  <option value="qr-86.png">86 Diamonds - ₹118</option>
+  <option value="qr-112.png">112 Diamonds - ₹155</option>
+  <option value="qr-172.png">172 Diamonds - ₹227</option>
+  <option value="qr-257.png">257 Diamonds - ₹319</option>
 
-    <!-- LARGE PACKS -->
-    <option value="qr-514.png">514 Diamonds - ₹637</option>
-    <option value="qr-706.png">706 Diamonds - ₹855</option>
-    <option value="qr-1050.png">1050 Diamonds - ₹1275</option>
-    <option value="qr-1135.png">1135 Diamonds - ₹1385</option>
-    <option value="qr-2195.png">2195 Diamonds - ₹2560</option>
-    <option value="qr-3688.png">3688 Diamonds - ₹4475</option>
-    <option value="qr-5532.png">5532 Diamonds - ₹6450</option>
-    <option value="qr-9288.png">9288 Diamonds - ₹10950</option>
+  <option value="qr-514.png">514 Diamonds - ₹637</option>
+  <option value="qr-706.png">706 Diamonds - ₹855</option>
+  <option value="qr-1050.png">1050 Diamonds - ₹1275</option>
+  <option value="qr-1135.png">1135 Diamonds - ₹1385</option>
+  <option value="qr-2195.png">2195 Diamonds - ₹2560</option>
+  <option value="qr-3688.png">3688 Diamonds - ₹4475</option>
+</select>
 
-    <!-- WEEKLY PASSES -->
-    <option value="qr-weekly-1.png">1 Weekly Pass - ₹135</option>
-    <option value="qr-weekly-172.png">1 Weekly Pass + 172 Diamonds - ₹360</option>
-    <option value="qr-weekly-2.png">2 Weekly Passes - ₹266</option>
-
-    <!-- EXCLUSIVE -->
-    <option value="qr-starlight.png">Starlight Card - ₹265</option>
-    <option value="qr-twilight.png">Twilight Pass - ₹790</option>
-  </select>
-
-  <!-- QR IMAGE (MUST BE BELOW SELECT) -->
-  <div class="qr-box">
-    <img id="qrImage" style="display:none; width:260px; margin-top:12px;">
-  </div>
-
-</div>
-</body>
- 
-<div class=="qr-box">
-   <img id="qrImage">
+<div class="qr-box">
+  <img id="qrImage">
 </div>
 
-<button type="button" onclick="sendOrder()">Order After Payment</button>
-  
+<div class="note">⚠ QR appears automatically after selecting a pack</div>
+
+<button onclick="sendOrder()">Order After Payment</button>
 
 <div id="processingBox">⏳ Processing your order, please wait...</div>
 
 <div id="successBox">
   ✅ Order placed successfully<br>
-  <b>Order ID:</b> <span id="orderIdText"></span><br><br>
+  <b>Order ID:</b> <span id="orderIdText"></span><br>
   Please tap <b>SEND</b> in Gmail to confirm.
-</div>
-
-<div class="note">
-⚠ QR appears automatically after selecting a pack
 </div>
 
 <div class="social-icons">
@@ -165,57 +134,53 @@ button{
 </div>
 
 <script>
+function updateQR(){
+  const pack = document.getElementById("pack");
+  const qr = document.getElementById("qrImage");
 
-<script>
-function sendOrder() {
-  const  = document.t.getElementBy("playerID").).val.e.tr();
+  if(pack.value){
+    qr.src = pack.value;
+    qr.style.display = "block";
+  }else{
+    qr.style.display = "none";
+  }
+}
+
+function sendOrder(){
+  const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
   const mobile = document.getElementById("mobile").value.trim();
-  const packSelect = document.getElementById("pack");
+  const pack = document.getElementById("pack");
 
-  if (
-    playerID === "" ||
-    serverID === "" ||
-    mobile === "" ||
-    packSelect.value === ""
-  ) {
+  if(!playerID || !serverID || !mobile || !pack.value){
     alert("Please fill all details and select a pack");
     return;
   }
 
-  // LOCK ORDER
-  sessionStorage.setItem("orderDone", "true");
-
   const orderId = "ORD-" + Date.now();
+  document.getElementById("orderIdText").innerText = orderId;
+
+  document.getElementById("processingBox").style.display = "block";
 
   const mailLink =
     "mailto:storeeveryday26@gmail.com" +
     "?subject=New MLBB Order" +
-    "&body=" +
-    encodeURIComponent(
+    "&body=" + encodeURIComponent(
       "Order ID: " + orderId + "\n" +
       "Player ID: " + playerID + "\n" +
       "Server ID: " + serverID + "\n" +
       "Mobile: " + mobile + "\n" +
-      "Pack: " + packSelect.options[packSelect.selectedIndex].text
+      "Pack: " + pack.options[pack.selectedIndex].text
     );
 
-  // ✅ OPEN GMAIL — MUST BE FIRST & DIRECT
   window.location.href = mailLink;
 
-  // ✅ REDIRECT AFTER (SAFE)
   setTimeout(() => {
-    window.location.href = "done.html";
-  }, 1500);
+    document.getElementById("processingBox").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+  }, 1200);
 }
 </script>
- 
-   <script>
-   setTimeout(() => {
-     window.location.href = "index.html";
-   }, 10000);
-   </script>
-  
-   </body>
 
-   </html>
+</body>
+</html>
