@@ -77,9 +77,9 @@ button{
 
 <h1>Everyday Store</h1>
 
-<input type="text" placeholder="Player ID">
-<input type="text" placeholder="Server ID">
-<input type="text" placeholder="Mobile Number">
+  <input type="text" id="playerId" placeholder="Player ID" required>
+<input type="text" id="serverId" placeholder="Server ID" required>
+<input type="text" id="mobile" placeholder="Mobile Number" required>
 
 <select id="pack" onchange="updateQR()" required>
   <option value="">Select Pack</option>
@@ -162,6 +162,21 @@ function updateQR() {
 
   <script>
 function sendOrder() {
+  const playerID = document.getElementById("playerId").value.trim();
+  const serverID = document.getElementById("serverId").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const packSelect = document.getElementById("pack");
+
+  if (
+    playerID === "" ||
+    serverID === "" ||
+    mobile === "" ||
+    packSelect.value === ""
+  ) {
+    alert("Please fill all details and select a pack");
+    return; // ⛔ STOPS ORDER
+  }
+
   const processingBox = document.getElementById("processingBox");
   const successBox = document.getElementById("successBox");
 
@@ -178,7 +193,14 @@ function sendOrder() {
     window.location.href =
       "mailto:storeeveryday26@gmail.com" +
       "?subject=New MLBB Order" +
-      "&body=Order ID: " + orderId;
+      "&body=" +
+      encodeURIComponent(
+        "Order ID: " + orderId + "\n" +
+        "Player ID: " + playerID + "\n" +
+        "Server ID: " + serverID + "\n" +
+        "Mobile: " + mobile + "\n" +
+        "Pack: " + packSelect.options[packSelect.selectedIndex].text
+      );
   }, 1500);
 }
 </script>
