@@ -111,7 +111,7 @@ button{
   <option value="qr-weekly-1.png">1 Weekly Pass – ₹135</option>
   <option value="qr-weekly-172.png">1 Weekly Pass + 172 Diamonds – ₹360</option>
   <option value="qr-weekly-2.png">2 Weekly Passes – ₹266</option>
-  <option value="qr-twilight.png">Twilight Pass – ₹790</option>
+  <option value="qr-twilight.png">Twilight Pass - ₹790</option>
 </select>
 
 <div class="qr-box">
@@ -147,34 +147,39 @@ button{
 </div>
 
 <script>
-function updateQR(){
+function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
-  if(pack.value !== ""){
+  if (pack.value !== "") {
     qr.src = "qr/" + pack.value;
     qr.style.display = "block";
-  }else{
+  } else {
     qr.style.display = "none";
   }
 }
+</script>
 
-function sendOrder(){
-  const processing = document.getElementById("processingBox");
-  const success = document.getElementById("successBox");
+  <script>
+function sendOrder() {
+  const processingBox = document.getElementById("processingBox");
+  const successBox = document.getElementById("successBox");
 
-  processing.style.display = "block";
-  success.style.display = "none";
+  processingBox.style.display = "block";
+  successBox.style.display = "none";
 
-  setTimeout(()=>{
-    processing.style.display = "none";
-    success.style.display = "block";
-    document.getElementById("orderIdText").innerText =
-      "ORD-" + Date.now();
+  setTimeout(() => {
+    processingBox.style.display = "none";
+    successBox.style.display = "block";
+
+    const orderId = "ORD-" + Date.now();
+    document.getElementById("orderIdText").innerText = orderId;
 
     window.location.href =
-      "mailto:storeeveryday26@gmail.com?subject=New MLBB Order";
-  },1200);
+      "mailto:storeeveryday26@gmail.com" +
+      "?subject=New MLBB Order" +
+      "&body=Order ID: " + orderId;
+  }, 1500);
 }
 </script>
 
