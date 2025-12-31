@@ -39,9 +39,8 @@ button{
 }
 .qr-box img{
   width:260px;
-  display:none;
   border-radius:12px;
-}
+} 
 .note{
   font-size:13px;
   text-align:center;
@@ -110,7 +109,7 @@ button{
 </select>
 
 <div class="qr-box">
-  <img id="qrImage" alt="QR Code">
+  <img id="qrImage" alt="QR Code" style="display:none;">
 </div>
 
 <div class="note">⚠️ QR appears automatically after selecting a pack</div>
@@ -135,8 +134,16 @@ Please tap <b>SEND</b> in Gmail to confirm.
   <a href="https://wa.me/917679393645" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
   </a>
-</div>
+  <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
+  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+  </a>
+</div> <!-- end of social-icons -->   <!-- line ~140 -->
 
+<a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
+  <button style="background:#25D366; color:white; margin-top:10px;">
+    Join WhatsApp Store
+  </button>
+</a>
 </div>
 
 <script>
@@ -179,12 +186,12 @@ function sendOrder(){
     );
 
   setTimeout(()=>{
-    document.getElementById("processingBox").style.display = "none";
-    document.getElementById("successBox").style.display = "block";
-  },1200);
+  document.getElementById("processingBox").style.display = "none";
+  document.getElementById("successBox").style.display = "block";
+},1200);
 
   setTimeout(()=>{
-    window.location.href = mailLink;
+    window.open(mailLink, "_blank");
   },2000);
 }
 </script>
