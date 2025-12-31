@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Everyday Store - MLBB</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Everyday Store - MLBB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0e1626;
-  color:white;
-}
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
-h1{
-  text-align:center;
-  margin-bottom:20px;
-}
-input,select,button{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:none;
-  font-size:15px;
-}
-button{
-  background:#2ecc71;
-  font-weight:bold;
-  cursor:pointer;
-}
-.qr-box{
-  text-align:center;
-  margin-top:15px;
-}
-.qr-box img{
-  width:260px;
-  border-radius:12px;
-  display:none;
-}
-.note{
-  font-size:13px;
-  text-align:center;
-  margin-top:12px;
-  color:#f1c40f;
-}
-#processingBox{
-  display:none;
-  text-align:center;
-  margin-top:12px;
-}
-#successBox{
-  display:none;
-  text-align:center;
-  margin-top:12px;
-  color:#2ecc71;
-}
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top:15px;
-}
-.social-icons img{
-  width:36px;
-}
-</style>
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#0e1626;
+      color:white;
+    }
+    .container{
+      max-width:420px;
+      margin:auto;
+      padding:20px;
+    }
+    h1{
+      text-align:center;
+      margin-bottom:20px;
+    }
+    input, select, button{
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      border-radius:10px;
+      border:none;
+      font-size:15px;
+    }
+    button{
+      background:#2ecc71;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .qr-box{
+      text-align:center;
+      margin-top:15px;
+    }
+    .qr-box img{
+      width:260px;
+      border-radius:12px;
+      display:none;
+    }
+    .note{
+      font-size:13px;
+      text-align:center;
+      margin-top:12px;
+      color:#f1c40f;
+    }
+    #processingBox{
+      display:none;
+      text-align:center;
+      margin-top:12px;
+    }
+    #successBox{
+      display:none;
+      text-align:center;
+      margin-top:12px;
+      color:#2ecc71;
+    }
+    .social-icons{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      margin-top:15px;
+    }
+    .social-icons img{
+      width:36px;
+    }
+  </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>Everyday Store</h1>
+  <h1>Everyday Store</h1>
 
-<input type="text" id="playerID" placeholder="Player ID" required>
-<input type="text" id="serverID" placeholder="Server ID" required>
-<input type="text" id="mobile" placeholder="Mobile Number" required>
+  <input type="text" id="playerID" placeholder="Player ID" required>
+  <input type="text" id="serverID" placeholder="Server ID" required>
+  <input type="text" id="mobile" placeholder="Mobile Number" required>
 
   <select id="pack" onchange="updateQR()" required>
     <option value="">Select Pack</option>
@@ -108,38 +108,38 @@ button{
     <option value="./qr-9288.png">9288 Diamonds - ₹10950</option>
 
     <!-- WEEKLY -->
-    <option value="./qr-weekly-1.png">1 Weekly Pass</option>
-    <option value="./qr-weekly-172.png">Weekly Pass + 172 Diamonds</option>
-    <option value="./qr-weekly-2.png">2 Weekly Passes</option>
+    <option value="./qr-weekly-1.png">1 Weekly PassPass - ₹133</option>
+    <option value="./qr-weekly-172.png">Weekly Pass + 172 Diamonds - ₹360</option>
+    <option value="./qr-weekly-2.png">2 Weekly Passes - 266</option>
   </select>
 
-<div class="qr-box">
-  <img id="qrImage">
-</div>
+  <div class="qr-box">
+    <img id="qrImage" alt="QR Code">
+  </div>
 
-<div class="note">⚠ QR appears automatically after selecting a pack</div>
+  <div class="note">⚠ QR appears automatically after selecting a pack</div>
 
-<button onclick="sendOrder()">Order After Payment</button>
+  <button onclick="sendOrder()">Order After Payment</button>
 
-<div id="processingBox">⏳ Processing your order, please wait...</div>
+  <div id="processingBox">⏳ Processing your order, please wait...</div>
 
-<div id="successBox">
-  ✅ Order placed successfully<br>
-  <b>Order ID:</b> <span id="orderIdText"></span><br>
-  Please tap <b>SEND</b> in Gmail to confirm.
-</div>
+  <div id="successBox">
+    ✅ Order placed successfully<br>
+    <b>Order ID:</b> <span id="orderIdText"></span><br>
+    Please tap <b>SEND</b> in Gmail to confirm.
+  </div>
 
-<div class="social-icons">
-  <a href="https://www.instagram.com/everyday_store_official" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-  </a>
-  <a href="https://youtube.com/@everydaystore-d4w" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-  </a>
-  <a href="https://wa.me/917679393645" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-  </a>
-</div>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/everyday_store_official" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+    </a>
+    <a href="https://youtube.com/@everydaystore-d4w" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+    </a>
+    <a href="https://wa.me/917679393645" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+    </a>
+  </div>
 
 </div>
 
@@ -148,10 +148,10 @@ function updateQR(){
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
-  if(pack.value){
+  if(pack.value !== ""){
     qr.src = pack.value;
     qr.style.display = "block";
-  }else{
+  } else {
     qr.style.display = "none";
   }
 }
@@ -169,19 +169,18 @@ function sendOrder(){
 
   const orderId = "ORD-" + Date.now();
   document.getElementById("orderIdText").innerText = orderId;
-
   document.getElementById("processingBox").style.display = "block";
 
   const mailLink =
-  "mailto:storeeveryday26@gmail.com" +
-  "?subject=New MLBB Order" +
-"&body=" + encodeURIComponent(
-    "Order ID: " + orderId + "\n" +
-    "Player ID: " + playerID + "\n" +
-    "Server ID: " + serverID + "\n" +
-    "Mobile: " + mobile + "\n" +
-    "Pack: " + pack.options[pack.selectedIndex].text
-  );
+    "mailto:storeeveryday26@gmail.com" +
+    "?subject=New MLBB Order" +
+    "&body=" + encodeURIComponent(
+      "Order ID: " + orderId + "\n" +
+      "Player ID: " + playerID + "\n" +
+      "Server ID: " + serverID + "\n" +
+      "Mobile: " + mobile + "\n" +
+      "Pack: " + pack.options[pack.selectedIndex].text
+    );
 
   window.location.href = mailLink;
 
@@ -190,9 +189,9 @@ function sendOrder(){
     document.getElementById("successBox").style.display = "block";
   }, 1200);
 }
-</script>
-<script>
+
 console.log("Version 1.0.1");
 </script>
+
 </body>
 </html>
