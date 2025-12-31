@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Everyday Store – Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg,#050b1f,#0c1430);
+      color:#fff;
+    }
+    .box{
+      max-width:420px;
+      margin:60px auto;
+      background:#0f1b3d;
+      padding:20px;
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,.4);
+    }
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+    button{
+      width:100%;
+      padding:14px;
+      margin-top:12px;
+      border:none;
+      border-radius:10px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .open{background:#2ecc71;color:#000;}
+    .close{background:#e74c3c;color:#fff;}
+    .logout{background:#555;color:#fff;}
+    .status{
+      text-align:center;
+      margin-top:15px;
+      font-weight:bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+  <h2>Admin Login</h2>
+  <input id="pass" type="password" placeholder="Enter Admin Password"
+    style="width:100%;padding:12px;border-radius:8px;border:none;">
+  <button onclick="login()" class="open">Login</button>
+</div>
+
+<div class="box" id="adminBox" style="display:none;">
+  <h2>Store Control</h2>
+
+  <button class="open" onclick="setStore(true)">🟢 Open Store</button>
+  <button class="close" onclick="setStore(false)">🔴 Close Store</button>
+
+  <div class="status" id="statusText"></div>
+
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<script>
+  const ADMIN_PASSWORD = "1234"; // 🔐 change this
+
+  function login(){
+    const p = document.getElementById("pass").value;
+    if(p === ADMIN_PASSWORD){
+      localStorage.setItem("admin","yes");
+      showAdmin();
+    } else {
+      alert("Wrong password");
+    }
+  }
+
+  function showAdmin(){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("adminBox").style.display="block";
+    updateStatus();
+  }
+
+  function logout(){
+    localStorage.removeItem("admin");
+    location.reload();
+  }
+
+  function setStore(open){
+    localStorage.setItem("storeOpen", open ? "yes" : "no");
+    updateStatus();
+    alert(open ? "Store OPENED" : "Store CLOSED");
+  }
+
+  function updateStatus(){
+    const s = localStorage.getItem("storeOpen");
+    document.getElementById("statusText").innerText =
+      s === "yes" ? "🟢 Store is OPEN" : "🔴 Store is CLOSED";
+  }
+
+  if(localStorage.getItem("admin")==="yes"){
+    showAdmin();
+  }
+</script>
+
+</body>
+</html>
