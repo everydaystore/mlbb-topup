@@ -64,6 +64,30 @@ button {
   text-align:center;
   margin-top:10px;
 }
+  .social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.social-icons img {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+  .customer-support {
+  text-align: center;
+  margin: 12px 0;
+}
+
+.customer-support a {
+  color: #25D366;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+}
+  
 </style>
 </head>
 
@@ -73,7 +97,6 @@ button {
 <h2>Everyday Store</h2>
 
 <form onsubmit="return false;">
-
 <input placeholder="MLBB Player ID" required>
 <input placeholder="Server ID" required>
 <input placeholder="Mobile Number" required>
@@ -109,7 +132,7 @@ button {
   <option value="qr-9288.png">9288 Diamonds – ₹10950</option>
 </select>
 
-<div class="qr-box">
+   <div class="qr-box">
   <img id="qrImage" style="display:none;" />
 </div>
 <div class="note">
@@ -117,14 +140,67 @@ button {
 </div>
 
 <button type="button" onclick="sendOrder()">
-  Order After Payment
+ Order After Payment
 </button>
+
+<div id="processingBox" class="processing" style="display:none;">
+ ⏳ Processing your order, please wait...
+</div>
+
+</form>
+  
+<div class="customer-support">
+  <a href="https://wa.me/917679393645" target="_blank">
+    💬 Customer Support: +91 76793 93645
+  </a>
+</div>
+
+   <div class="social-icons">
+<!-- Instagram -->
+  <a href="https://www.instagram.com/everyday_store_official" target="_blank" aria-label="Instagram">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+  </a>
+
+  <!-- YouTube -->
+  <a href="https://youtube.com/@everydaystore-d4w" target="_blank" aria-label="YouTube">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+  </a>
+
+  <!-- WhatsApp Customer Support (chat) -->
+  <a href="https://wa.me/917679393645" target="_blank" aria-label="WhatsApp Chat">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp Chat">
+  </a>
+
+  <!-- WhatsApp Store / Group -->
+  <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank" aria-label="WhatsApp Store">
+    <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp Store">
+  </a>
+</div>
 
 <div class="note">
 ⚠️ Please tap SEND in Gmail to complete your order
 </div>
 <script>
 function sendOrder() {
+
+  // CREATE ORDER ID FIRST
+  const orderID = "ORD-" + Date.now();
+  const orderData = {
+  orderID: orderID,
+  playerID: playerID,
+  serverID: serverID,
+  mobile: mobile,
+  pack: packName,
+  time: new Date().toLocaleString()
+};
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+orders.push(orderData);
+localStorage.setItem("orders", JSON.stringify(orders));
+
+  // SHOW PROCESSING
+  document.getElementById("processingBox").style.display = "block";
+
   const inputs = document.querySelectorAll("input");
   const playerID = inputs[0].value;
   const serverID = inputs[1].value;
@@ -135,29 +211,39 @@ function sendOrder() {
 
   if (!playerID || !serverID || !mobile || packSelect.value === "") {
     alert("Please fill all details and select a pack.");
+    document.getElementById("processingBox").style.display = "none";
     return;
   }
 
   const subject = encodeURIComponent("New MLBB Order");
   const body = encodeURIComponent(
     "New Order Received\n\n" +
+    "Order ID: " + orderID + "\n" +
     "Player ID: " + playerID + "\n" +
     "Server ID: " + serverID + "\n" +
     "Mobile Number: " + mobile + "\n" +
     "Pack: " + packName + "\n\n" +
     "Payment Done via QR"
   );
+  document.getElementById("processingBox").style.display = "none";
+  // SHOW SUCCESS
+  document.getElementById("successBox").style.display = "block";
+  document.getElementById("orderIdText").innerText = orderID;
 
+  // OPEN GMAIL
+  setTimeout(function () {
     window.location.href =
-"mailto:storeeveryday26@gmail.com?subject=" + subject + "&body=" + body;
+      "mailto:storeeveryday26@gmail.com?subject=" + subject + "&body=" + body;
+  }, 1000);
 }
 </script>
 
-
-</</form>
-
-
-<div class="note">
+<div id="successBox" class="note" style="display:none;">
+  ✅ Order placed successfully!<br>
+  🆔 <b>Order ID:</b> <span id="orderIdText"></span><br><br>
+  Please tap <b>SEND</b> in Gmail to confirm.
+</div>
+     <div class="note">
 ℹ️ Order confirmation is sent via Gmail for security.<br>
 No data is stored without your consent.
 </div>
@@ -173,7 +259,7 @@ function updateQR() {
     qr.style.display = "none";
   }
 }
-
-</script>
+</script> 
+     
 </body>
 </html>
