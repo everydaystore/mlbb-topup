@@ -156,8 +156,6 @@ Order After Payment
 ⏳ Processing your order, please wait...
 </div>
 
-</form>
-
 <div class="customer-support">
 <a href="https://wa.me/917679393645" target="_blank">
 📞 Customer Support: +91 76793 93645
@@ -201,12 +199,16 @@ function updateQR() {
   } else {
     qr.style.display = "none";
   }
-}
-
+</script>
+  
+<script>
 function sendOrder() {
 
-  document.getElementById("processingBox").style.display = "block";
+  // SHOW PROCESSING IMMEDIATELY
+  const processingBox = document.getElementById("processingBox");
+  processingBox.style.display = "block";
 
+  // GET INPUTS
   const inputs = document.querySelectorAll("input");
   const playerID = inputs[0].value.trim();
   const serverID = inputs[1].value.trim();
@@ -216,13 +218,15 @@ function sendOrder() {
   const packName = packSelect.options[packSelect.selectedIndex].text;
 
   if (!playerID || !serverID || !mobile || packSelect.value === "") {
-    alert("Please fill all details and select a pack.");
-    document.getElementById("processingBox").style.display = "none";
+    alert("Please fill all details and select a pack");
+    processingBox.style.display = "none";
     return;
   }
 
+  // CREATE ORDER ID
   const orderID = "ORD-" + Date.now();
 
+  // EMAIL CONTENT
   const subject = encodeURIComponent("New MLBB Order");
   const body = encodeURIComponent(
     "New Order Received\n\n" +
@@ -234,16 +238,19 @@ function sendOrder() {
     "Payment Done via QR"
   );
 
-  document.getElementById("processingBox").style.display = "none";
-  document.getElementById("successBox").style.display = "block";
-  document.getElementById("orderIdText").innerText = orderID;
-
+  // WAIT 1.2s SO USER SEES PROCESSING
   setTimeout(() => {
+    processingBox.style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+    document.getElementById("orderIdText").innerText = orderID;
+
     window.location.href =
-    "mailto:storeeveryday26@gmail.com?subject=" + subject + "&body=" + body;
-  }, 800);
+      "mailto:storeeveryday26@gmail.com?subject=" +
+      subject +
+      "&body=" +
+      body;
+  }, 1200);
 }
 </script>
-
 </body>
 </html>
