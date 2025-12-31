@@ -2,84 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Everyday Store – MLBB</title>
+<title>Everyday Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#0e1626;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(#0b132b,#1c2541);
   color:white;
+  text-align:center;
 }
+
+h1{
+  margin-top:20px;
+  font-family:cursive;
+}
+
 .container{
-  max-width:420px;
-  margin:auto;
   padding:20px;
 }
-h1{
-  text-align:center;
-  margin-bottom:20px;
-}
-input,select,button{
+
+input, select{
   width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
+  padding:14px;
+  margin:10px 0;
+  border-radius:12px;
   border:none;
-  font-size:15px;
+  font-size:16px;
 }
+
+#qrImage{
+  display:none;
+  width:260px;
+  margin:20px auto;
+  border-radius:16px;
+}
+
 button{
-  background:#2ecc71;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
-.qr-box{
-  text-align:center;
-  margin-top:15px;
+
+#orderBtn{
+  background:#2ecc71;
+  color:black;
 }
-.qr-box img{
-  width:220px;
-  border-radius:12px;
+
+#gmailBtn{
+  background:#ff4b4b;
+  color:white;
+  margin-top:12px;
   display:none;
 }
+
 .note{
-  font-size:13px;
-  text-align:center;
-  margin-top:12px;
+  margin-top:10px;
+  font-size:14px;
   color:#f1c40f;
 }
-#processingBox{
-  display:none;
-  margin-top:10px;
-  text-align:center;
-}
-#successBox{
-  display:none;
-  margin-top:12px;
-  text-align:center;
-  color:#2ecc71;
-}
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top:15px;
-}
-.social-icons img{
-  width:36px;
+
+.social img{
+  width:40px;
+  margin:10px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
 <h1>Everyday Store</h1>
 
-  <input type="text" id="playerId" placeholder="Player ID" required>
-<input type="text" id="serverId" placeholder="Server ID" required>
-<input type="text" id="mobile" placeholder="Mobile Number" required>
+<div class="container">
+
+<input id="playerID" placeholder="Player ID">
+<input id="serverID" placeholder="Server ID">
+<input id="mobile" placeholder="Mobile Number">
 
 <select id="pack" onchange="updateQR()" required>
   <option value="">Select Pack</option>
@@ -114,25 +117,17 @@ button{
   <option value="qr-twilight.png">Twilight Pass - ₹790</option>
 </select>
 
-<div class="qr-box">
-  <img id="qrImage">
-</div>
+<img id="qrImage">
 
-<button type="button" onclick="sendOrder()">Order After Payment</button>
+<button id="orderBtn" onclick="prepareOrder()">Order After Payment</button>
 
-<div id="processingBox">⏳ Processing your order, please wait...</div>
+<a id="gmailLink" target="_blank">
+  <button id="gmailBtn">📧 SEND ORDER VIA GMAIL</button>
+</a>
 
-<div id="successBox">
-  ✅ Order placed successfully<br>
-  <b>Order ID:</b> <span id="orderIdText"></span><br><br>
-  Please tap <b>SEND</b> in Gmail to confirm.
-</div>
+<div class="note">⚠️ QR appears automatically after selecting a pack</div>
 
-<div class="note">
-⚠ QR appears automatically after selecting a pack
-</div>
-
-<div class="social-icons">
+<div class="social">
   <a href="https://www.instagram.com/everyday_store_official" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
   </a>
@@ -144,97 +139,64 @@ button{
   </a>
 </div>
 
+<p class="note">⚠️ If Gmail doesn’t open, tap ⋮ → Open in browser</p>
+
 </div>
-<button type="button" onclick="sendOrder()">Order After Payment</button>
 
-<p style="text-align:center;color:#f1c40f;font-size:13px;margin-top:8px;">
-⚠️ After clicking Order, tap the <b>RED “SEND ORDER VIA GMAIL”</b> button to complete order
-</p>
-
-<a id="mailBtn" target="_blank" style="display:none; text-decoration:none;">
-  <button type="button" style="
-    width:100%;
-    margin-top:12px;
-    background:#ff4b4b;
-    color:white;
-    font-weight:bold;
-    border:none;
-    border-radius:12px;
-    padding:14px;
-    font-size:16px;
-    cursor:pointer;
-  ">
-    📧 SEND ORDER VIA GMAIL
-  </button>
-</a>
 <script>
-   if (sessionStorage.getItem("orderDone")) {
-  alert("⚠️ Order already submitted. Please wait for confirmation.");
-  window.location.href = "done.html";
+/* BLOCK REUSE */
+if(sessionStorage.getItem("orderDone")){
+  alert("⚠️ Order already submitted");
+  location.href="done.html";
 }
-  
-<script>
-function updateQR() {
-  const pack = document.getElementById("pack");
-  const qr = document.getElementById("qrImage");
 
-  if (pack.value !== "") {
-    qr.src = "qr/" + pack.value;
-    qr.style.display = "block";
-  } else {
-    qr.style.display = "none";
+/* QR */
+function updateQR(){
+  const pack=document.getElementById("pack");
+  const qr=document.getElementById("qrImage");
+  if(pack.value){
+    qr.src=pack.value;
+    qr.style.display="block";
+  }else{
+    qr.style.display="none";
   }
 }
-</script>
 
-  <script>
-function sendOrder() {
-  const playerID = document.getElementById("playerID").value.trim();
-  const serverID = document.getElementById("serverID").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const packSelect = document.getElementById("pack");
+/* PREPARE ORDER */
+function prepareOrder(){
+  const playerID=playerID=document.getElementById("playerID").value.trim();
+  const serverID=document.getElementById("serverID").value.trim();
+  const mobile=document.getElementById("mobile").value.trim();
+  const pack=document.getElementById("pack");
 
-  if (
-    playerID === "" ||
-    serverID === "" ||
-    mobile === "" ||
-    packSelect.value === ""
-  ) {
-    alert("Please fill all details and select a pack");
+  if(!playerID || !serverID || !mobile || !pack.value){
+    alert("Fill all details");
     return;
   }
 
-  // LOCK ORDER
-  sessionStorage.setItem("orderDone", "true");
+  sessionStorage.setItem("orderDone","true");
 
-  const orderId = "ORD-" + Date.now();
+  const orderId="ORD-"+Date.now();
 
-  const mailLink =
-    "mailto:storeeveryday26@gmail.com" +
-    "?subject=New MLBB Order" +
-    "&body=" +
-    encodeURIComponent(
-      "Order ID: " + orderId + "\n" +
-      "Player ID: " + playerID + "\n" +
-      "Server ID: " + serverID + "\n" +
-      "Mobile: " + mobile + "\n" +
-      "Pack: " + packSelect.options[packSelect.selectedIndex].text
+  const mailto=
+    "mailto:storeeveryday26@gmail.com"+
+    "?subject=New MLBB Order"+
+    "&body="+encodeURIComponent(
+      "Order ID: "+orderId+"\n"+
+      "Player ID: "+playerID+"\n"+
+      "Server ID: "+serverID+"\n"+
+      "Mobile: "+mobile+"\n"+
+      "Pack: "+pack.options[pack.selectedIndex].text
     );
 
-  // ✅ SHOW GMAIL BUTTON
-document.getElementById("mailBtn").href = mailLink;
-document.getElementById("mailBtn").style.display = "block";
+  const link=document.getElementById("gmailLink");
+  link.href=mailto;
 
-// ✅ REDIRECT AFTER 1.5s
-setTimeout(() => {
-  window.location.href = "done.html";
-}, 1500);
+  document.getElementById("gmailBtn").style.display="block";
+
+  alert("Now tap RED button to send order via Gmail");
 }
 </script>
-<p style="text-align:center;color:#f1c40f;">
-⚠️ If Gmail doesn’t open, tap ⋮ and choose <b>Open in Browser</b>
-</p>
-  
+
 </body>
 </html>
-   
