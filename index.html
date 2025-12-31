@@ -75,31 +75,64 @@ button{
 <body>
 <div class="container">
 
-<h1>Everyday Store</h1>
+<body>
 
-<input type="text" placeholder="Player ID">
-<input type="text" placeholder="Server ID">
-<input type="text" placeholder="Mobile Number">
+<div class="container">
 
-<select id="pack" onchange="updateQR()">
-  <option value="">Select Pack</option>
+  <h1>Everyday Store</h1>
 
-  <option value="qr-11.png">11 Diamonds – ₹23</option>
-  <option value="qr-22.png">22 Diamonds – ₹35</option>
-  <option value="qr-55.png">55 Diamonds – ₹81</option>
-  <option value="qr-86.png">86 Diamonds – ₹118</option>
-  <option value="qr-112.png">112 Diamonds – ₹155</option>
-  <option value="qr-172.png">172 Diamonds – ₹227</option>
-  <option value="qr-257.png">257 Diamonds – ₹319</option>
-   <optio value="qr-weekly-1.png">1 Weekly Pass – ₹135</option>
-  <option value="qr-weekly-172.png">1 Weekly Pass + 172 Diamonds – ₹360</option>
-  <option value="qr-weekly-2.png">2 Weekly Passes – ₹266</option>
-  <option value="qr-starlight.png">Starlight Card – ₹265</option>
-  <option value="qr-twilight.png">Twilight Pass – ₹790</option>
-</select>
+  <!-- INPUTS -->
+  <input type="text" id="playerId" placeholder="Player ID" required>
+<input type="text" id="serverId" placeholder="Server ID" required>
+<input type="text" id="mobile" placeholder="Mobile Number" required>
 
-<div class="qr-box">
-  <img id="qrImage">
+  <!-- 🔽 PASTE SELECT HERE -->
+  <select id="pack" onchange="updateQR()" required>
+    <option value="">Select Pack</option>
+
+    <!-- SMALL PACKS -->
+    <option value="qr-3.png">3 Diamonds - ₹8</option>
+    <option value="qr-5.png">5 Diamonds - ₹12</option>
+    <option value="qr-11.png">11 Diamonds - ₹23</option>
+    <option value="qr-22.png">22 Diamonds - ₹35</option>
+
+    <!-- MEDIUM PACKS -->
+    <option value="qr-56.png">56 Diamonds - ₹81</option>
+    <option value="qr-86.png">86 Diamonds - ₹118</option>
+    <option value="qr-112.png">112 Diamonds - ₹155</option>
+    <option value="qr-172.png">172 Diamonds - ₹227</option>
+    <option value="qr-257.png">257 Diamonds - ₹319</option>
+
+    <!-- LARGE PACKS -->
+    <option value="qr-514.png">514 Diamonds - ₹637</option>
+    <option value="qr-706.png">706 Diamonds - ₹855</option>
+    <option value="qr-1050.png">1050 Diamonds - ₹1275</option>
+    <option value="qr-1135.png">1135 Diamonds - ₹1385</option>
+    <option value="qr-2195.png">2195 Diamonds - ₹2560</option>
+    <option value="qr-3688.png">3688 Diamonds - ₹4475</option>
+    <option value="qr-5532.png">5532 Diamonds - ₹6450</option>
+    <option value="qr-9288.png">9288 Diamonds - ₹10950</option>
+
+    <!-- WEEKLY PASSES -->
+    <option value="qr-weekly-1.png">1 Weekly Pass - ₹135</option>
+    <option value="qr-weekly-172.png">1 Weekly Pass + 172 Diamonds - ₹360</option>
+    <option value="qr-weekly-2.png">2 Weekly Passes - ₹266</option>
+
+    <!-- EXCLUSIVE -->
+    <option value="qr-starlight.png">Starlight Card - ₹265</option>
+    <option value="qr-twilight.png">Twilight Pass - ₹790</option>
+  </select>
+
+  <!-- QR IMAGE (MUST BE BELOW SELECT) -->
+  <div class="qr-box">
+    <img id="qrImage" style="display:none; width:260px; margin-top:12px;">
+  </div>
+
+</div>
+</body>
+ 
+<div class=="qr-box">
+   <img id="qrImage">
 </div>
 
 <button type="button" onclick="sendOrder()">Order After Payment</button>
@@ -131,36 +164,47 @@ button{
 </div>
 
 <script>
-function updateQR(){
-  const pack = document.getElementById("pack");
-  const qr = document.getElementById("qrImage");
 
-  if(pack.value !== ""){
-    qr.src = "qr/" + pack.value;
-    qr.style.display = "block";
-  }else{
-    qr.style.display = "none";
+<script>
+function sendOrder() {
+  const playerID = document.getElementById("playerId").value.trim();
+  const serverID = document.getElementById("serverId").value.trim();
+  const mobile   = document.getElementById("mobile").value.trim();
+  const pack     = document.getElementById("pack").value;
+
+  // ⛔ STOP IF ANY FIELD IS EMPTY
+  if (!playerID || !serverID || !mobile || !pack) {
+    alert("Fill all details before ordering");
+    return; // ⛔ THIS STOPS EVERYTHING
   }
-}
 
-function sendOrder(){
-  const processing = document.getElementById("processingBox");
-  const success = document.getElementById("successBox");
+  // SHOW PROCESSING
+  document.getElementById("processingBox").style.display = "block";
 
-  processing.style.display = "block";
-  success.style.display = "none";
+  setTimeout(() => {
+    document.getElementById("processingBox").style.display = "none";
 
-  setTimeout(()=>{
-    processing.style.display = "none";
-    success.style.display = "block";
-    document.getElementById("orderIdText").innerText =
-      "ORD-" + Date.now();
+    const orderId = "ORD-" + Date.now();
+    document.getElementById("orderIdText").innerText = orderId;
+    document.getElementById("successBox").style.display = "block";
 
+    // ✅ GMAIL OPENS ONLY AFTER VALIDATION
     window.location.href =
-      "mailto:storeeveryday26@gmail.com?subject=New MLBB Order";
-  },1200);
+      "mailto:storeeveryday26@gmail.com" +
+      "?subject=New MLBB Order" +
+      "&body=" +
+      encodeURIComponent(
+        "Order ID: " + orderId + "\n" +
+        "Player ID: " + playerID + "\n" +
+        "Server ID: " + serverID + "\n" +
+        "Mobile: " + mobile + "\n" +
+        "Pack: " + pack
+      );
+  }, 1200);
 }
 </script>
+  
+ 
 
 </body>
 </html>
