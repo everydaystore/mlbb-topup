@@ -211,13 +211,13 @@ function sendOrder() {
     // ✅ LOCK ORDER
 sessionStorage.setItem("orderDone", "true");
 
-// 📧 OPEN GMAIL
+// 📧 OPEN GMAIL (USER ACTION CONTEXT)
 window.location.href = mailLink;
 
-// 🔁 REDIRECT TO DONE PAGE
+// ⏳ GIVE BROWSER TIME TO OPEN GMAIL
 setTimeout(() => {
-  window.location.href = "done.html";
-}, 800);
+  window.location.replace("done.html");
+}, 2500);
 }
 </script>
 
