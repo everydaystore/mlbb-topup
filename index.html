@@ -148,12 +148,15 @@ button {
   <img id="qrImage" style="display:none;">
 </div>
 
-<button type="button" onclick="sendOrder()">
-Order After Payment
-</button>
+<div class="order-actions">
 
-<div id="processingBox" style="display:none;">
-⏳ Processing your order, please wait...
+  <button type="button" onclick="sendOrder()">
+    Order After Payment
+  </button>
+  <div id="processingBox" style="display:none; margin-top:12px;">
+    ⏳ Processing your order, please wait...
+  </div>
+
 </div>
 
 <div class="customer-support">
@@ -171,8 +174,7 @@ Order After Payment
 <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
 </a>
 
-<a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png">
+<a href="https://chat.whatsapp.com/.png">
 </a>
 </div>
 
@@ -199,16 +201,14 @@ function updateQR() {
   } else {
     qr.style.display = "none";
   }
+}
 </script>
-  
+
 <script>
 function sendOrder() {
-
-  // SHOW PROCESSING IMMEDIATELY
   const processingBox = document.getElementById("processingBox");
   processingBox.style.display = "block";
 
-  // GET INPUTS
   const inputs = document.querySelectorAll("input");
   const playerID = inputs[0].value.trim();
   const serverID = inputs[1].value.trim();
@@ -223,34 +223,27 @@ function sendOrder() {
     return;
   }
 
-  // CREATE ORDER ID
   const orderID = "ORD-" + Date.now();
 
-  // EMAIL CONTENT
-  const subject = encodeURIComponent("New MLBB Order");
-  const body = encodeURIComponent(
-    "New Order Received\n\n" +
-    "Order ID: " + orderID + "\n" +
-    "Player ID: " + playerID + "\n" +
-    "Server ID: " + serverID + "\n" +
-    "Mobile: " + mobile + "\n" +
-    "Pack: " + packName + "\n\n" +
-    "Payment Done via QR"
-  );
-
-  // WAIT 1.2s SO USER SEES PROCESSING
   setTimeout(() => {
     processingBox.style.display = "none";
     document.getElementById("successBox").style.display = "block";
     document.getElementById("orderIdText").innerText = orderID;
 
     window.location.href =
-      "mailto:storeeveryday26@gmail.com?subject=" +
-      subject +
-      "&body=" +
-      body;
+      "mailto:storeeveryday26@gmail.com?subject=New MLBB Order&body=Order ID: " +
+      orderID;
   }, 1200);
 }
+</script>
+
+  if (pack.value !== "") {
+    qr.src = "./qr/" + pack.value;
+    qr.style.display = "block";
+  } else {
+    qr.style.display = "none";
+  }
+</scr
 </script>
 </body>
 </html>
