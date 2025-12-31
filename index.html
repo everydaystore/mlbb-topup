@@ -207,7 +207,7 @@ function updateQR() {
 
 
 
-function sendOrder() {
+async function sendOrder() {
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
   const mobile = document.getElementById("mobile").value.trim();
@@ -220,20 +220,15 @@ function sendOrder() {
 
   const orderId = "ORD-" + Date.now();
 
-  // ✅ SAVE ORDER TO LOCAL STORAGE
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  orders.push({
-    orderId: orderId,
-    playerID: playerID,
-    serverID: serverID,
-    mobile: mobile,
-    pack: pack.options[pack.selectedIndex].text,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-
+await addDoc(collection(window.db, "orders"), {
+  orderId: orderId,
+  playerID: playerID,
+  serverID: serverID,
+  mobile: mobile,
+  pack: pack.options[pack.selectedIndex].text,
+  status: "pending",
+  createdAt: serverTimestamp()
+});
   // UI updates
   document.getElementById("orderIdText").innerText = orderId;
   document.getElementById("processingBox").style.display = "block";
