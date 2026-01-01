@@ -75,6 +75,15 @@ input, select {
   background: #111;
   color: #fff;
 }
+  /* Button press animation */
+button {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+button:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+}
   /* ===== TOP BANNER SLIDER ===== */
 .slider {
   width: 100%;
@@ -149,8 +158,26 @@ input, select {
 </div>
 
 <div class="note">⚠️ QR appears automatically after selecting a pack</div>
-
-<button id="orderBtn" onclick="sendOrder()">Order After Payment</button>
+<!-- LIVE BUYERS -->
+<div id="liveBuyers" style="
+  margin:12px 0;
+  padding:10px;
+  background:rgba(0,0,0,0.45);
+  border-radius:12px;
+  font-size:14px;
+  color:#2ecc71;
+  text-align:center;
+">
+🟢 Someone purchased Weekly Pass
+  
+</div>
+  <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+  <button id="orderBtn" onclick="playClick(); sendOrder();">
+  <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+  <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/1116/1116-preview.mp3"></audio>
+<button id="orderBtn" onclick="playClick(); sendOrder();">
+  Order After Payment
+</button>
 
 <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
   <button style="background:#25D366; color:white; margin-top:10px; font-weight:bold;">
@@ -168,6 +195,15 @@ input, select {
   Please tap <b>SEND</b> in Gmail to confirm.
 </div>
 
+  <script>
+function playClick() {
+  const sound = document.getElementById("clickSound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+}
+</script>
 <div class="social-icons">
   <a href="https://www.instagram.com/everyday_store_official" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
@@ -222,17 +258,30 @@ function sendOrder() {
       "Pack: " + pack.options[pack.selectedIndex].text
     );
 
-  setTimeout(() => {
-    document.getElementById("processingBox").style.display = "none";
-    document.getElementById("successBox").style.display = "block";
-  }, 1200);
+setTimeout(() => {
+  document.getElementById("processingBox").style.display = "none";
+  document.getElementById("successBox").style.display = "block";
+  playSuccess(); //
+}, 1200);
+  
 
-  setTimeout(() => {
-    window.open(mailLink, "_blank");
-  }, 2000);
+function playSuccess() {
+  const sound = document.getElementById("successSound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.volume = 0.6; // soft, pleasant
+    sound.play();
+  }
+
+  // 📳 MOBILE VIBRATION
+  if (navigator.vibrate) {
+    navigator.vibrate([120, 60, 120]);
+  }
 }
-</script>
-<script type="module">
+
+
+
+  <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -267,6 +316,28 @@ const storeRef = doc(db, "store", "store");
     btn.style.opacity = "1";
   }
 
+</script>
+  <!-- LIVE BUYERS SCRIPT -->
+<script>
+const buyers = [
+  "🟢 Someone bought 55 Diamonds",
+  "🟢 Weekly Pass purchased",
+  "🟢 Someone bought 86 Diamonds",
+  "🟢 Order placed for 112 Diamonds",
+  "🟢 Someone purchased 172 Diamonds",
+  "🟢 Weekly Pass purchased just now",
+  "🟢 Someone bought 257 Diamonds"
+];
+
+let i = 0;
+const box = document.getElementById("liveBuyers");
+
+if (box) {
+  setInterval(() => {
+    i = (i + 1) % buyers.length;
+    box.innerText = buyers[i];
+  }, 3500);
+}
 </script>
   <!-- AUTO SLIDER SCRIPT -->
   <script>
