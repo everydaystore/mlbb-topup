@@ -115,7 +115,7 @@ button{
 
 <div class="note">⚠️ QR appears automatically after selecting a pack</div>
 
-<button onclick="sendOrder()">Order After Payment</button>
+<button id="orderBtn" onclick="sendOrder()">Order After Payment</button>
 
 <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
   <button style="background:#25D366; color:white; margin-top:10px; font-weight:bold;">
@@ -218,7 +218,7 @@ onSnapshot(storeRef, (snap) => {
   if (!snap.exists()) return;
 
   const status = snap.data().status;
-  const btn = document.querySelector("button[onclick='sendOrder()']");
+  const btn = document.getElementById("orderBtn");
 
   if (!btn) return;
 
