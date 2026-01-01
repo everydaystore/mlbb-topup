@@ -2,270 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Everyday Store – MLBB Top-Up</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Everyday Store</title>
 
 <style>
-body{
-  margin:0;
-  font-family:cursive;
-  background:linear-gradient(180deg,#050b1f,#0c1430);
-  color:#fff;
-}
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
-h1{
-  text-align:center;
-}
-input,select,button{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:12px;
-  border:none;
-  font-size:15px;
-}
-button{
-  background:#2ecc71;
-  font-weight:bold;
-  cursor:pointer;
-}
-.qr-box{
-  text-align:center;
-  margin-top:15px;
-}
-.qr-box img{
-  width:260px;
-  border-radius:12px;
-} 
-.note{
-  font-size:13px;
-  text-align:center;
-  margin-top:10px;
-  color:#f1c40f;
-}
-#processingBox,#successBox{
-  display:none;
-  text-align:center;
-  margin-top:12px;
-}
-#successBox{
-  color:#2ecc71;
-}
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top:15px;
-}
-.social-icons img{
-  width:36px;
-}
+  body {
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    padding: 20px;
+  }
+  .box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    max-width: 420px;
+    margin: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  button {
+    background: #4f46e5;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .qr-box {
+    text-align: center;
+    margin-top: 15px;
+  }
+  #processingBox, #successBox {
+    display: none;
+    text-align: center;
+    margin-top: 15px;
+  }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<h1>Everyday Store</h1>
+<div class="box">
+  <h3>MLBB Diamond Top-Up</h3>
 
-<input type="text" id="playerID" placeholder="Player ID">
-<input type="text" id="serverID" placeholder="Server ID">
-<input type="text" id="mobile" placeholder="Mobile Number">
+  <input id="playerID" placeholder="Player ID">
+  <input id="serverID" placeholder="Server ID">
+  <input id="mobile" placeholder="Mobile Number">
 
+  <select id="pack" onchange="updateQR()">
+    <option value="">Select Pack</option>
 
-<select id="pack" onchange="updateQR()">
-  <option value="">Select Pack</option>
+    <option value="./qr/qr-3.png">3 Diamonds - ₹8</option>
+    <option value="./qr/qr-5.png">5 Diamonds - ₹12</option>
+    <option value="./qr/qr-11.png">11 Diamonds - ₹23</option>
+    <option value="./qr/qr-22.png">22 Diamonds - ₹35</option>
 
-  <!-- SMALL -->
-  <option value="./qr/qr-3.png">3 Diamonds - ₹8</option>
-  <option value="./qr/qr-5.png">5 Diamonds - ₹12</option>
-  <option value="./qr/qr-11.png">11 Diamonds - ₹23</option>
-  <option value="./qr/qr-22.png">22 Diamonds - ₹35</option>
+    <option value="./qr/qr-55.png">55 Diamonds - ₹81</option>
+    <option value="./qr/qr-86.png">86 Diamonds - ₹118</option>
+    <option value="./qr/qr-112.png">112 Diamonds - ₹155</option>
+    <option value="./qr/qr-172.png">172 Diamonds - ₹227</option>
+    <option value="./qr/qr-257.png">257 Diamonds - ₹319</option>
 
-  <!-- MEDIUM -->
-  <option value="./qr/qr-55.png">55 Diamonds - ₹81</option>
-  <option value="./qr/qr-86.png">86 Diamonds - ₹118</option>
-  <option value="./qr/qr-112.png">112 Diamonds - ₹155</option>
-  <option value="./qr/qr-172.png">172 Diamonds - ₹227</option>
-  <option value="./qr/qr-257.png">257 Diamonds - ₹319</option>
+    <option value="./qr/qr-514.png">514 Diamonds - ₹637</option>
+    <option value="./qr/qr-706.png">706 Diamonds - ₹855</option>
+    <option value="./qr/qr-1050.png">1050 Diamonds - ₹1275</option>
+    <option value="./qr/qr-1135.png">1135 Diamonds - ₹1385</option>
+    <option value="./qr/qr-2195.png">2195 Diamonds - ₹2560</option>
+    <option value="./qr/qr-3688.png">3688 Diamonds - ₹4475</option>
+    <option value="./qr/qr-5532.png">5532 Diamonds - ₹6450</option>
+    <option value="./qr/qr-9288.png">9288 Diamonds - ₹10950</option>
 
-  <!-- LARGE -->
-  <option value="./qr/qr-514.png">514 Diamonds - ₹637</option>
-  <option value="./qr/qr-706.png">706 Diamonds - ₹855</option>
-  <option value="./qr/qr-1050.png">1050 Diamonds - ₹1275</option>
-  <option value="./qr/qr-1135.png">1135 Diamonds - ₹1385</option>
-  <option value="./qr/qr-2195.png">2195 Diamonds - ₹2560</option>
-  <option value="./qr/qr-3688.png">3688 Diamonds - ₹4475</option>
-  <option value="./qr/qr-5532.png">5532 Diamonds - ₹6450</option>
-  <option value="./qr/qr-9288.png">9288 Diamonds - ₹10950</option>
+    <option value="./qr/qr-weekly-1.png">1 Weekly Pass - ₹133</option>
+    <option value="./qr/qr-weekly-172.png">Weekly + 172 Diamonds - ₹360</option>
+    <option value="./qr/qr-weekly-2.png">2 Weekly Passes - ₹366</option>
+  </select>
 
-  <!-- WEEKLY -->
-  <option value="./qr/qr-weekly-1.png">1 Weekly Pass - ₹133</option>
-  <option value="./qr/qr-weekly-172.png">Weekly + 172 Diamonds - ₹360</option>
-  <option value="./qr/qr-weekly-2.png">2 Weekly Passes - ₹366</option>
-</select>
-<div class="qr-box" style="text-align:center; margin-top:15px;">
-  <img id="qrImage" src="" style="display:none; width:220px;">
-</div>
-  
-  
-</div>
+  <div class="qr-box">
+    <img id="qrImage" style="display:none; width:220px;">
+  </div>
 
-<div class="note">⚠ QR appears automatically after selecting a pack</div>
+  <button id="orderBtn" onclick="sendOrder()">Order After Payment</button>
 
-<div id="storeStatusMsg"
-style="
-display:none;
-text-align:center;
-margin:12px 0;
-padding:10px;
-border-radius:10px;
-background:#ffdddd;
-color:#b00000;
-font-weight:600;
-">
-🚫 Store is currently closed. Please come back later.
+  <div id="processingBox">⏳ Processing...</div>
+  <div id="successBox">
+    ✅ Order placed<br>
+    <span id="orderIdText"></span>
+  </div>
 </div>
 
-<button id="orderBtn" onclick="sendOrder()">Order After Payment</button>
-
-<a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD"
-   target="_blank"
-   rel="noopener noreferrer">
-  <button style="
-    background:#25D366;
-    color:#ffffff;
-    font-weight:600;
-    font-size:15px;
-    margin-top:12px;
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-  ">
-    Get Store Updates
-  </button>
-</a>
-
-<p style="
-  text-align:center;
-  font-size:12px;
-  margin-top:6px;
-  color:#bfbfbf;
-">
-  Get updates, offers, and announcements on WhatsApp
-</p>
-
-<div id="processingBox">⏳ Processing your order, please wait...</div>
-
-<div id="successBox">
-  ✅ Order placed successfully<br>
-  <b>Order ID:</b> <span id="orderIdText"></span><br>
-  Please tap <b>SEND</b> in Gmail to confirm.
-</div>
-
-<div class="social-icons">
-  <a href="https://www.instagram.com/everyday_store_official" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
-  </a>
-  <a href="https://youtube.com/@everydaystore-d4w" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-  </a>
-  <a href="https://wa.me/917679393645" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
-  </a>
-</div>
+<!-- ================= JS ================= -->
 <script type="module">
-import { doc, onSnapshot } from
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  /* ---------- Firebase imports ---------- */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp,
+    doc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const storeRef = doc(window.db, "settings", "store");
+  /* ---------- Firebase config ---------- */
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "XXXX",
+    appId: "XXXX"
+  };
 
-onSnapshot(storeRef, (snap) => {
-  const status = snap.data().status;
+  /* ---------- Init ---------- */
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window.db = db;
 
-  const msg = document.getElementById("storeStatusMsg");
-  const btn = document.getElementById("orderBtn");
+  /* ---------- STORE OPEN / CLOSE (GLOBAL) ---------- */
+  const storeRef = doc(db, "settings", "store");
 
-  if (status === "closed") {
-    msg.style.display = "block";
-    btn.disabled = true;
-    btn.style.opacity = "0.6";
-  } else {
-    msg.style.display = "none";
-    btn.disabled = false;
-    btn.style.opacity = "1";
-  }
-});
+  onSnapshot(storeRef, (snap) => {
+    if (!snap.exists()) return;
 
-function updateQR() {
-  const pack = document.getElementById("pack");
-  const qr = document.getElementById("qrImage");
+    const status = snap.data().status;
+    const btn = document.getElementById("orderBtn");
 
-  if (!pack.value) {
-    qr.style.display = "none";
-    qr.src = "";
-    return;
-  }
+    if (status === "closed") {
+      btn.disabled = true;
+      btn.innerText = "Store Closed";
+      btn.style.opacity = "0.6";
+    } else {
+      btn.disabled = false;
+      btn.innerText = "Order After Payment";
+      btn.style.opacity = "1";
+    }
+  });
 
-  qr.src = pack.value;
-  qr.style.display = "block";
-}
-  
+  /* ---------- QR UPDATE ---------- */
+  window.updateQR = function () {
+    const pack = document.getElementById("pack");
+    const qr = document.getElementById("qrImage");
 
-  qr.src = pack.value + "?t=" + Date.now();
-  qr.style.display = "block";
-}
+    if (!pack.value) {
+      qr.style.display = "none";
+      qr.src = "";
+      return;
+    }
 
+    qr.src = pack.value + "?t=" + Date.now();
+    qr.style.display = "block";
+  };
 
-async function sendOrder() {
-  const playerID = document.getElementById("playerID").value.trim();
-  const serverID = document.getElementById("serverID").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const pack = document.getElementById("pack");
+  /* ---------- SEND ORDER ---------- */
+  window.sendOrder = async function () {
+    const playerID = document.getElementById("playerID").value.trim();
+    const serverID = document.getElementById("serverID").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const pack = document.getElementById("pack");
 
-  if (!playerID || !serverID || !mobile || !pack.value) {
-    alert("Please fill all details and select a pack");
-    return;
-  }
+    if (!playerID || !serverID || !mobile || !pack.value) {
+      alert("Please fill all details and select a pack");
+      return;
+    }
 
-  const orderId = "ORD-" + Date.now();
+    const orderId = "ORD-" + Date.now();
 
-await addDoc(collection(window.db, "orders"), {
-  orderId: orderId,
-  playerID: playerID,
-  serverID: serverID,
-  mobile: mobile,
-  pack: pack.options[pack.selectedIndex].text,
-  status: "pending",
-  createdAt: serverTimestamp()
-});
-  // UI updates
-  document.getElementById("orderIdText").innerText = orderId;
-  document.getElementById("processingBox").style.display = "block";
+    await addDoc(collection(db, "orders"), {
+      orderId,
+      playerID,
+      serverID,
+      mobile,
+      pack: pack.options[pack.selectedIndex].text,
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
 
-  const mailLink =
-    "mailto:storeeveryday26@gmail.com" +
-    "?subject=New MLBB Order" +
-    "&body=" +
-    encodeURIComponent(
-      "Order ID: " + orderId + "\n" +
-      "Player ID: " + playerID + "\n" +
-      "Server ID: " + serverID + "\n" +
-      "Mobile: " + mobile + "\n" +
-      "Pack: " + pack.options[pack.selectedIndex].text
-    );
+    document.getElementById("orderIdText").innerText = orderId;
+    document.getElementById("processingBox").style.display = "block";
 
-  setTimeout(() => {
-    document.getElementById("processingBox").style.display = "none";
-    document.getElementById("successBox").style.display = "block";
-  }, 1200);
+    const mailLink =
+      "mailto:storeeveryday26@gmail.com" +
+      "?subject=New MLBB Order" +
+      "&body=" +
+      encodeURIComponent(
+        "Order ID: " + orderId + "\n" +
+        "Player ID: " + playerID + "\n" +
+        "Server ID: " + serverID + "\n" +
+        "Mobile: " + mobile + "\n" +
+        "Pack: " + pack.options[pack.selectedIndex].text
+      );
 
-  setTimeout(() => {
-    window.open(mailLink, "_blank");
-  }, 2000);
-}
+    setTimeout(() => {
+      document.getElementById("processingBox").style.display = "none";
+      document.getElementById("successBox").style.display = "block";
+    }, 1200);
+
+    setTimeout(() => {
+      window.open(mailLink, "_blank");
+    }, 2000);
+  };
 </script>
