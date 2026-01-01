@@ -6,12 +6,20 @@
 <title>Everyday Store</title>
 
 <style>
-body{
-  margin:0;
-  font-family:cursive;
-  background:linear-gradient(180deg,#050b1f,#0c1430);
-  color:#fff;
+9  /* FIX OVERFLOW ISSUE */
+10 * {
+11   box-sizing: border-box;
+12 }
+13
+body {
+  margin: 0;
+  font-family: cursive;
+  background: linear-gradient(180deg, #050b1f, #0c1430);
+  color: #fff;
+  overflow-x: hidden;
 }
+
+
 .container{
   max-width:420px;
   margin:auto;
@@ -310,10 +318,10 @@ function playSuccess() {
   }
 
   if (navigator.vibrate) {
-    navigator.vibrate([120, 60, 120]);
-  }
+  navigator.vibrate([120, 60, 120]);
 }
 </script>
+
 <script>
 function onlyNumbers(id) {
   const el = document.getElementById(id);
@@ -328,8 +336,7 @@ function onlyNumbers(id) {
   }
 });
 </script>
-
-
+  
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
