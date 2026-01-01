@@ -64,7 +64,26 @@
 
   <button class="logout" onclick="logout()">Logout</button>
 </div>
+<script>
+const ADMIN_PASS = "1234"; // change if you want
 
+function login() {
+  const pass = document.getElementById("pass").value;
+
+  if (pass === ADMIN_PASS) {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminBox").style.display = "block";
+  } else {
+    alert("Wrong password");
+  }
+}
+
+function logout() {
+  document.getElementById("adminBox").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+  document.getElementById("pass").value = "";
+}
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
