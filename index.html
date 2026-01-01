@@ -214,23 +214,24 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storeRef = doc(db, "store", "store");
 
-onSnapshot(storeRef, (snap) => {
-  if (!snap.exists()) return;
+document.addEventListener("DOMContentLoaded", () => {
+  onSnapshot(storeRef, (snap) => {
+    if (!snap.exists()) return;
 
-  const status = snap.data().status;
-  const btn = document.getElementById("orderBtn");
+    const status = snap.data().status;
+    const btn = document.getElementById("orderBtn");
+    if (!btn) return;
 
-  if (!btn) return;
-
-  if (status === "closed") {
-    btn.disabled = true;
-    btn.innerText = "Store Closed";
-    btn.style.opacity = "0.6";
-  } else {
-    btn.disabled = false;
-    btn.innerText = "Order After Payment";
-    btn.style.opacity = "1";
-  }
+    if (status === "closed") {
+      btn.disabled = true;
+      btn.innerText = "Store Closed";
+      btn.style.opacity = "0.6";
+    } else {
+      btn.disabled = false;
+      btn.innerText = "Order After Payment";
+      btn.style.opacity = "1";
+    }
+  });
 });
 </script>
 </body>
