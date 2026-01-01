@@ -80,7 +80,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storeRef = doc(db, "settings", "store");
+const storeRef = doc(db, "store", "store");
 
 window.setStore = async function (open) {
   console.log("STORE CLICKED:", open);
