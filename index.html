@@ -37,11 +37,15 @@ button{
   text-align:center;
   margin-top:15px;
 }
-.qr-box img{
-  width:260px;
-  display:block;
-  margin: 10px auto;
+
+#qrImage{
+  width:220px;
+  max-width:90%;
+  margin:10px auto;
   border-radius:12px;
+  background:#fff;
+  padding:10px;
+  display:none;
 }
 .note{
   font-size:13px;
@@ -126,34 +130,34 @@ button:active {
   <option value="">Select Pack</option>
 
   <!-- SMALL -->
-  <option value="qr/qr-3.png">3 Diamonds – ₹8</option>
-  <option value="qr/qr-5.png">5 Diamonds – ₹12</option>
-  <option value="qr/qr-11.png">11 Diamonds – ₹23</option>
-  <option value="qr/qr-22.png">22 Diamonds – ₹35</option>
+  <option value="mlbb-topup/qr/qr-3.png">3 Diamonds – ₹8</option>
+  <option value="mlbb-topup/qr/qr-5.png">5 Diamonds – ₹12</option>
+  <option value="mlbb-topup/qr/qr-11.png">11 Diamonds – ₹23</option>
+  <option value="mlbb-topup/qr/qr-22.png">22 Diamonds – ₹35</option>
 
   <!-- MEDIUM -->
-  <option value="qr/qr-55.png">55 Diamonds – ₹81</option>
-  <option value="qr/qr-86.png">86 Diamonds – ₹118</option>
-  <option value="qr/qr-112.png">112 Diamonds – ₹155</option>
-  <option value="qr/qr-172.png">172 Diamonds – ₹227</option>
-  <option value="qr/qr-257.png">257 Diamonds – ₹319</option>
+  <option value="mlbb-topup/qr/qr-55.png">55 Diamonds – ₹81</option>
+  <option value="mlbb-topup/qr/qr-86.png">86 Diamonds – ₹118</option>
+  <option value="mlbb-topup/qr/qr-112.png">112 Diamonds – ₹155</option>
+  <option value="mlbb-topup/qr/qr-172.png">172 Diamonds – ₹227</option>
+  <option value="mlbb-topup/qr/qr-257.png">257 Diamonds – ₹319</option>
 
   <!-- LARGE -->
-  <option value="qr/qr-514.png">514 Diamonds – ₹637</option>
-  <option value="qr/qr-706.png">706 Diamonds – ₹855</option>
-  <option value="qr/qr-1050.png">1050 Diamonds – ₹1275</option>
-  <option value="qr/qr-1135.png">1135 Diamonds – ₹1385</option>
-  <option value="qr/qr-2195.png">2195 Diamonds – ₹2560</option>
-  <option value="qr/qr-3688.png">3688 Diamonds – ₹4475</option>
-  <option value="qr/qr-5532.png">5532 Diamonds – ₹6450</option>
-  <option value="qr/qr-9288.png">9288 Diamonds – ₹10950</option>
+  <option value="mlbb-topup/qr/qr-514.png">514 Diamonds – ₹637</option>
+  <option value="mlbb-topup/qr/qr-706.png">706 Diamonds – ₹855</option>
+  <option value="mlbb-topup/qr/qr-1050.png">1050 Diamonds – ₹1275</option>
+  <option value="mlbb-topup/qr/qr-1135.png">1135 Diamonds – ₹1385</option>
+  <option value="mlbb-topup/qr/qr-2195.png">2195 Diamonds – ₹2560</option>
+  <option value="mlbb-topup/qr/qr-3688.png">3688 Diamonds – ₹4475</option>
+  <option value="mlbb-topup/qr/qr-5532.png">5532 Diamonds – ₹6450</option>
+  <option value="mlbb-topup/qr/qr-9288.png">9288 Diamonds – ₹10950</option>
 
   <!-- WEEKLY -->
-  <option value="qr/qr-weekly-1.png">Weekly Pass – ₹133</option>
-  <option value="qr/qr-weekly-172.png">Weekly + 172 Diamonds – ₹360</option>
-  <option value="qr/qr-weekly-2.png">2 Weekly Passes – ₹366</option>
+  <option value="mlbb-topup/qr/qr-weekly-1.png">Weekly Pass – ₹133</option>
+  <option value="mlbb-topup/qr/qr-weekly-172.png">Weekly + 172 Diamonds – ₹360</option>
+  <option value="mlbb-topup/qr/qr-weekly-2.png">2 Weekly Passes – ₹366</option>
 </select>
-
+  
 <div class="qr-box">
   <img id="qrImage" alt="QR Code" style="display:none;">
 </div>
@@ -224,12 +228,29 @@ function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
-  if (pack.value) {
-    qr.src = pack.value;
-    qr.style.display = "block";
-  } else {
+  if (!pack.value) {
     qr.style.display = "none";
+    return;
   }
+
+  // IMPORTANT: correct absolute path
+  qr.src = "https://everydaystore.github.io/mlbb-topup/" + pack.value;
+  qr.style.display = "block";
+}
+</script>
+ 
+<script>
+function updateQR() {
+  const pack = document.getElementById("pack");
+  const qr = document.getElementById("qrImage");
+
+  if (!pack.value) {
+    qr.style.display = "none";
+    return;
+  }
+
+  qr.src = "https://everydaystore.github.io/" + pack.value;
+  qr.style.display = "block";
 }
 
 function sendOrder() {
@@ -247,38 +268,34 @@ function sendOrder() {
   document.getElementById("orderIdText").innerText = orderId;
   document.getElementById("processingBox").style.display = "block";
 
-  const mailLink =
-    "mailto:storeeveryday26@gmail.com" +
-    "?subject=New MLBB Order" +
-    "&body=" +
-    encodeURIComponent(
-      "Order ID: " + orderId + "\n" +
-      "Player ID: " + playerID + "\n" +
-      "Server ID: " + serverID + "\n" +
-      "Mobile: " + mobile + "\n" +
-      "Pack: " + pack.options[pack.selectedIndex].text
-    );
+  setTimeout(() => {
+    document.getElementById("processingBox").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+    playSuccess();
+  }, 1200);
+}
 
-setTimeout(() => {
-  document.getElementById("processingBox").style.display = "none";
-  document.getElementById("successBox").style.display = "block";
-  playSuccess(); //
-}, 1200);
-  
+function playClick() {
+  const sound = document.getElementById("clickSound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play();
+  }
+}
 
 function playSuccess() {
   const sound = document.getElementById("successSound");
   if (sound) {
     sound.currentTime = 0;
-    sound.volume = 0.6; // soft, pleasant
+    sound.volume = 0.6;
     sound.play();
   }
 
-  // 📳 MOBILE VIBRATION
   if (navigator.vibrate) {
     navigator.vibrate([120, 60, 120]);
   }
 }
+</script>
 
 
 
