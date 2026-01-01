@@ -6,11 +6,10 @@
 <title>Everyday Store</title>
 
 <style>
-9  /* FIX OVERFLOW ISSUE */
-10 * {
-11   box-sizing: border-box;
-12 }
-13
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: cursive;
@@ -223,7 +222,6 @@ button:active {
   </button>
 </a>
    
-  
 
 <div id="processingBox">⏳ Processing your order, please wait...</div>
 
@@ -259,12 +257,11 @@ function updateQR() {
   }
 
   // IMPORTANT: correct absolute path
-  qr.src = "https://everydaystore.github.io/mlbb-topup/" + pack.value;
+  qr.src = "https://everydaystore.github.io/" + pack.value;
   qr.style.display = "block";
 }
 </script>
  
-
 
 <script>
 function sendOrder() {
