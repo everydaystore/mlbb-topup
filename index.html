@@ -109,7 +109,13 @@ button{
   <option value="qr/qr-weekly-2.png">2 Weekly Passes – ₹366</option>
 </select>
 <div class="qr-box">
-  <img id="qrImage" alt="QR Code">
+  <img
+    id="qrImage"
+    alt="QR Code"
+    style="display:none; width:220px; margin:15px auto;"
+  >
+</div>
+  
   
 </div>
 
@@ -198,19 +204,19 @@ onSnapshot(storeRef, (snap) => {
     btn.style.opacity = "1";
   }
 });
+
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
 
   if (!pack.value) {
-    qr.src = "";
+    qr.style.display = "none";
     return;
   }
 
   qr.src = pack.value + "?t=" + Date.now();
+  qr.style.display = "block";
 }
-
-
 
 
 async function sendOrder() {
