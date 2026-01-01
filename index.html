@@ -197,6 +197,41 @@ function sendOrder() {
   }, 2000);
 }
 </script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyB7ZS8S879-gQFikWUyq4y0rDja7DzboK",
+  authDomain: "everyday-store-6debb.firebaseapp.com",
+  projectId: "everyday-store-6debb",
+  storageBucket: "everyday-store-6debb.appspot.com",
+  messagingSenderId: "488459400808",
+  appId: "1:488459400808:web:3f0f4b3eee464bed12ddd"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storeRef = doc(db, "settings", "store");
+
+onSnapshot(storeRef, (snap) => {
+  if (!snap.exists()) return;
+
+  const status = snap.data().status;
+  const btn = document.querySelector("button[onclick='sendOrder()']");
+
+  if (!btn) return;
+
+  if (status === "closed") {
+    btn.disabled = true;
+    btn.innerText = "Store Closed";
+    btn.style.opacity = "0.6";
+  } else {
+    btn.disabled = false;
+    btn.innerText = "Order After Payment";
+    btn.style.opacity = "1";
+  }
+});
+</script>
 </body>
 </html>
