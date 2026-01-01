@@ -20,9 +20,12 @@ body {
 }
 .container {
   max-width: 420px;
-  margin: auto;
+  width: 100%;
+  margin: 16px auto;
   padding: 20px;
   border-radius: 24px;
+  overflow: hidden;
+  background: #bdbdbd;
 }
 h1{
   text-align:center;
@@ -47,7 +50,7 @@ button{
 .qr-box {
   width: 100%;
   text-align: center;
-
+}
 #qrImage {
   width: 220px;
   max-width: 100%;
@@ -73,22 +76,23 @@ button{
 #successBox{
   color:#2ecc71;
 }
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top:15px;
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
 }
-.social-icons img{
-  width:36px;
+.social-icons img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
 }
   .container {
   background: rgba(0,0,0,0.35);
   border-radius: 20px;
   box-shadow: 0 0 25px rgba(0,0,0,0.6);
 }
-
-input, select {
+  .input, select {
   background: #111;
   color: #fff;
 }
@@ -104,13 +108,12 @@ button:active {
   /* ===== TOP BANNER SLIDER ===== */
 .slider {
   width: 100%;
-  height: 160px;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   margin-bottom: 15px;
   position: relative;
 }
-
 .slider img {
   width: 100%;
   height: 100%;
@@ -230,13 +233,6 @@ button:active {
   Please tap <b>SEND</b> in Gmail to confirm.
 </div>
 
-  <script>
-function playClick() {
-  const sound = document.getElementById("clickSound");
-  if (sound) {
-    sound.currentTime = 0;
-    sound.play();
-  }
 }
 </script>
 <div class="social-icons">
@@ -251,7 +247,6 @@ function playClick() {
   </a>
 </div>
 
-</div>
 
 <script>
 function updateQR() {
@@ -269,20 +264,9 @@ function updateQR() {
 }
 </script>
  
+
+
 <script>
-function updateQR() {
-  const pack = document.getElementById("pack");
-  const qr = document.getElementById("qrImage");
-
-  if (!pack.value) {
-    qr.style.display = "none";
-    return;
-  }
-
-  qr.src = "https://everydaystore.github.io/" + pack.value;
-  qr.style.display = "block";
-}
-
 function sendOrder() {
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
@@ -304,42 +288,8 @@ function sendOrder() {
     playSuccess();
   }, 1200);
 }
-
-function playClick() {
-  const sound = document.getElementById("clickSound");
-  if (sound) {
-    sound.currentTime = 0;
-    sound.play();
-  }
-}
-
-function playSuccess() {
-  const sound = document.getElementById("successSound");
-  if (sound) {
-    sound.currentTime = 0;
-    sound.volume = 0.6;
-    sound.play();
-  }
-
-  if (navigator.vibrate) {
-  navigator.vibrate([120, 60, 120]);
-}
 </script>
 
-<script>
-function onlyNumbers(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.value = el.value.replace(/\D/g, '');
-}
-
-["playerID", "serverID", "mobile"].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.addEventListener("input", () => onlyNumbers(id));
-  }
-});
-</script>
   
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
