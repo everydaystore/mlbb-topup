@@ -122,9 +122,27 @@ button:active {
 </div>
 <h1>Everyday Store</h1>
 
-<input type="text" id="playerID" placeholder="Player ID">
-<input type="text" id="serverID" placeholder="Server ID">
-<input type="text" id="mobile" placeholder="Mobile Number">
+<input 
+  type="tel"
+  id="playerID"
+  placeholder="Player ID (8–11 digits)"
+  inputmode="numeric"
+  maxlength="11"
+>
+<input 
+  type="tel"
+  id="serverID"
+  placeholder="Server ID (3–5 digits)"
+  inputmode="numeric"
+  maxlength="5"
+>
+<input 
+  type="tel"
+  id="mobile"
+  placeholder="Mobile Number"
+  inputmode="numeric"
+  maxlength="10"
+>
 
 <select id="pack" onchange="updateQR()">
   <option value="">Select Pack</option>
@@ -296,7 +314,20 @@ function playSuccess() {
   }
 }
 </script>
+<script>
+function onlyNumbers(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = el.value.replace(/\D/g, '');
+}
 
+["playerID", "serverID", "mobile"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener("input", () => onlyNumbers(id));
+  }
+});
+</script>
 
 
   <script type="module">
