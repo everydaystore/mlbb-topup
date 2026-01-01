@@ -82,33 +82,24 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storeRef = doc(db, "settings", "store");
 
-const ADMIN_PASSWORD = "151616";
-
-window.login = function () {
-  const p = document.getElementById("pass").value;
-  if (p === ADMIN_PASSWORD) {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("adminBox").style.display = "block";
-  } else {
-    alert("Wrong password");
-  }
-};
-
-window.logout = function () {
-  location.reload();
-};
-
 window.setStore = async function (open) {
-  await setDoc(storeRef, {
-    status: open ? "open" : "closed"
-  });
+  console.log("STORE CLICKED:", open);
+
+  await setDoc(
+    storeRef,
+    { status: open ? "open" : "closed" },
+    { merge: true }
+  );
+
+  alert("Store set to: " + (open ? "OPEN" : "CLOSED"));
 };
 
 onSnapshot(storeRef, (snap) => {
   if (!snap.exists()) return;
-  const s = snap.data().status;
   document.getElementById("statusText").innerText =
-    s === "open" ? "🟢 Store is OPEN" : "🔴 Store is CLOSED";
+    snap.data().status === "open"
+      ? "🟢 Store is OPEN"
+      : "🔴 Store is CLOSED";
 });
 </script>
 
