@@ -6,6 +6,23 @@
 <title>Everyday Store</title>
 
 <style>
+  #processingBox {
+  display: none;
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(0,0,0,0.6);
+  color: #ffd54f;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
 * {
   box-sizing: border-box;
 }
@@ -277,13 +294,10 @@ function updateQR() {
 
 <script>
 function sendOrder() {
-  alert("sendOrder triggered");
-  alert("BUTTON WORKS");
-
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
-  const mobile   = document.getElementById("mobile").value.trim();
-  const pack     = document.getElementById("pack");
+  const mobile = document.getElementById("mobile").value.trim();
+  const pack = document.getElementById("pack");
 
   if (!playerID || !serverID || !mobile || !pack.value) {
     alert("Please fill all details and select a pack");
@@ -294,6 +308,21 @@ function sendOrder() {
   document.getElementById("orderIdText").innerText = orderId;
   document.getElementById("processingBox").style.display = "block";
 
+  // ✅ DEFINE FIRST
+  const subject = encodeURIComponent("MLBB Order Confirmation");
+  const body = encodeURIComponent(
+    "Order ID: " + orderId +
+    "\nPlayer ID: " + playerID +
+    "\nServer ID: " + serverID +
+    "\nMobile: " + mobile +
+    "\n\nPlease confirm my payment."
+  );
+
+  // ✅ THEN OPEN GMAIL (must be user-triggered)
+  window.location.href =
+    "mailto:everydaystore@gmail.com?subject=" + subject + "&body=" + body;
+
+  // UI animation AFTER
   setTimeout(() => {
     document.getElementById("processingBox").style.display = "none";
     document.getElementById("successBox").style.display = "block";
