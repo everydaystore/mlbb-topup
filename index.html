@@ -78,6 +78,23 @@ button{
   overflow: hidden;
   box-sizing: border-box;
 }
+  #topAuth {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+}
+
+#topAuth button {
+  background: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
 .note{
   font-size:13px;
   text-align:center;
@@ -144,7 +161,13 @@ button:active {
 </head>
 
 <body>
+  <!-- TOP LEFT AUTH BUTTON -->
+<div id="topAuth">
+  <button id="topLoginBtn">Sign In</button>
+  <button id="topLogoutBtn" style="display:none;">Logout</button>
+</div>
 <div class="container">
+  
 <!-- TOP BANNER SLIDER -->
 <div class="slider">
   <img src="images/banner1.jpg" class="active">
@@ -353,7 +376,8 @@ import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasej
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -367,43 +391,56 @@ const firebaseConfig = {
   appId: "1:488459400808:web:3f0f4b3eee464bed12ddd"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-window.auth = auth;
-const provider = new GoogleAuthProvider();
-const db = getFirestore(app);
-const storeRef = doc(db, "store", "store");
+ const app = initializeApp(firebaseConfig);
+ const auth = getAuth(app);
+ window.auth = auth;
+ const provider = new GoogleAuthProvider();
 
-// GOOGLE LOGIN
-document.getElementById("loginBtn").onclick = async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (e) {
-    alert("Google login failed");
-  }
+
+ getRedirectResult(auth)
+   .then((result) => {
+     if (result && result.user) {
+       console.log("Google login success:", result.user.email);
+     }
+   })
+   .catch((error) => {
+     console.error("Redirect login error:", error);
+   });
+
+ const db = getFirestore(app);
+ const storeRef = doc(db, "store", "store");
+
+ // TOP LEFT LOGIN
+document.getElementById("topLoginBtn").onclick = () => {
+  signInWithRedirect(auth, provider);
 };
 
-// LOGOUT
-document.getElementById("logoutBtn").onclick = async () => {
+// TOP LEFT LOGOUT
+document.getElementById("topLogoutBtn").onclick = async () => {
   await signOut(auth);
 };
 
 // AUTH STATE CHANGE
 onAuthStateChanged(auth, (user) => {
+ 
   const emailInput = document.getElementById("email");
 
   if (user) {
-    document.getElementById("loginBtn").style.display = "none";
-    document.getElementById("logoutBtn").style.display = "inline-block";
+document.getElementById("topLoginBtn").style.display = "none";
+document.getElementById("topLogoutBtn").style.display = "inline-block";
     document.getElementById("userInfo").innerText =
       "Logged in as: " + user.email;
 
     // ✅ AUTO FILL EMAIL
     emailInput.value = user.email;
+
   } else {
-    document.getElementById("loginBtn").style.display = "inline-block";
-    document.getElementById("logoutBtn").style.display = "none";
-    document.getElementById("userInfo").innerText = "";
+document.getElementById("topLoginBtn").sty
+le.display = "inline-block";
+document.getElementById("topLogoutBtn").st
+yle.display = "none";
+document.getElementById("userInfo").innerT
+ext = "";
 
     // ❌ CLEAR EMAIL ON LOGOUT
     emailInput.value = "";
