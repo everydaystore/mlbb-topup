@@ -355,7 +355,6 @@ if (!user) {
     "\nMobile: " + mobile +
     "\nEmail: " + email +
     "\n\nPlease confirm my payment."
-    
   );
 
   // ✅ OPEN GMAIL — MUST BE IMMEDIATE
@@ -395,7 +394,9 @@ const firebaseConfig = {
  const auth = getAuth(app);
  window.auth = auth;
  const provider = new GoogleAuthProvider();
-
+function doGoogleLogin() {
+  signInWithRedirect(auth, provider);
+}
 
  getRedirectResult(auth)
    .then((result) => {
@@ -410,15 +411,15 @@ const firebaseConfig = {
  const db = getFirestore(app);
  const storeRef = doc(db, "store", "store");
 
- // TOP LEFT LOGIN
-document.getElementById("topLoginBtn").onclick = () => {
-  signInWithRedirect(auth, provider);
-};
+document.addEventListener("DOMContentLoaded", () => {
 
-// TOP LEFT LOGOUT
-document.getElementById("topLogoutBtn").onclick = async () => {
-  await signOut(auth);
-};
+  document.getElementById("topLoginBtn").onclick = doGoogleLogin;
+
+  document.getElementById("topLogoutBtn").onclick = async () => {
+    await signOut(auth);
+  };
+
+});
 
 // AUTH STATE CHANGE
 onAuthStateChanged(auth, (user) => {
