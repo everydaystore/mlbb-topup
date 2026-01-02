@@ -214,6 +214,7 @@ button:active {
 <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/1116/1116-preview.mp3"></audio>
 
+  
 <button id="orderBtn"
   onclick="playClick(); sendOrder();"
   style="position: relative; z-index: 10;">
@@ -236,7 +237,6 @@ button:active {
 </div>
 
 
-</script>
 <div class="social-icons">
   <a href="https://www.instagram.com/everyday_store_official" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
@@ -269,10 +269,12 @@ function updateQR() {
 
 <script>
 function sendOrder() {
+  alert("BUTTON WORKS");
+
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const pack = document.getElementById("pack");
+  const mobile   = document.getElementById("mobile").value.trim();
+  const pack     = document.getElementById("pack");
 
   if (!playerID || !serverID || !mobile || !pack.value) {
     alert("Please fill all details and select a pack");
@@ -286,11 +288,9 @@ function sendOrder() {
   setTimeout(() => {
     document.getElementById("processingBox").style.display = "none";
     document.getElementById("successBox").style.display = "block";
-    playSuccess();
   }, 1200);
 }
 </script>
-
   
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
