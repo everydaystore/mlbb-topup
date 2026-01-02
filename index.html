@@ -187,7 +187,7 @@ button:active {
   <!-- WEEKLY -->
   <option value="mlbb-topup/qr/qr-weekly-1.png">Weekly Pass – ₹133</option>
   <option value="mlbb-topup/qr/qr-weekly-172.png">Weekly + 172 Diamonds – ₹360</option>
-  <option value="mlbb-topup/qr/qr-weekly-2.png">2 Weekly Passes – ₹366</option>
+  <option value="mlbb-topup/qr/qr-weekly-2.png">2 Weekly Passes – ₹266</option>
 </select>
   
 <div class="qr-box">
@@ -204,6 +204,8 @@ button:active {
   font-size:14px;
   color:#2ecc71;
   text-align:center;
+  position: relative;
+  z-index: 1;
 ">
 🟢 Someone purchased Weekly Pass
   
@@ -212,7 +214,9 @@ button:active {
 <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/1116/1116-preview.mp3"></audio>
 
-<button id="orderBtn" onclick="playClick(); sendOrder();">
+<button id="orderBtn"
+  onclick="playClick(); sendOrder();"
+  style="position: relative; z-index: 10;">
   Order After Payment
 </button>
 
@@ -305,23 +309,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storeRef = doc(db, "store", "store");
 
-
-  onSnapshot(storeRef, (snap) => {
-  if (!snap.exists()) return;
-
-  const status = snap.data().status;
-  const btn = document.getElementById("orderBtn");
-  if (!btn) return;
-
-  if (false) {
-    btn.disabled = true;
-    btn.innerText = "Store Closed";
-    btn.style.opacity = "0.6";
-  } else {
-    btn.disabled = false;
-    btn.innerText = "Order After Payment";
-    btn.style.opacity = "1";
-  }
 
 </script>
   <!-- LIVE BUYERS SCRIPT -->
