@@ -214,10 +214,18 @@ button:active {
 <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/1116/1116-preview.mp3"></audio>
 
-  
-<button id="orderBtn" type="button"
-  onclick="playClick(); sendOrder();"
-  style="position: relative; z-index: 10;">
+<script>
+function playClick() {
+  document.getElementById("clickSound").currentTime = 0;
+  document.getElementById("clickSound").play();
+}
+function playSuccess() {
+  document.getElementById("successSound").currentTime = 0;
+  document.getElementById("successSound").play();
+}
+</script>
+
+<button id="orderBtn" type="button" style="position: relative; z-index: 10;">
   Order After Payment
 </button>
 
@@ -269,6 +277,7 @@ function updateQR() {
 
 <script>
 function sendOrder() {
+  alert("sendOrder triggered");
   alert("BUTTON WORKS");
 
   const playerID = document.getElementById("playerID").value.trim();
@@ -344,6 +353,13 @@ if (box) {
       slides[currentSlide].classList.add("active");
     }, 3000);
   </script>
+
+<script>
+document.getElementById("orderBtn").addEventListener("click", () => {
+  playClick();
+  sendOrder();
+});
+</script>
 
 </body>
 </html>
