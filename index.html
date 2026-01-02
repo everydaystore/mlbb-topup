@@ -296,8 +296,8 @@ function updateQR() {
 function sendOrder() {
   const playerID = document.getElementById("playerID").value.trim();
   const serverID = document.getElementById("serverID").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const pack = document.getElementById("pack");
+  const mobile   = document.getElementById("mobile").value.trim();
+  const pack     = document.getElementById("pack");
 
   if (!playerID || !serverID || !mobile || !pack.value) {
     alert("Please fill all details and select a pack");
@@ -318,11 +318,11 @@ function sendOrder() {
     "\n\nPlease confirm my payment."
   );
 
-  // ✅ THEN OPEN GMAIL (must be user-triggered)
+  // ✅ OPEN GMAIL — MUST BE IMMEDIATE
   window.location.href =
     "mailto:everydaystore@gmail.com?subject=" + subject + "&body=" + body;
 
-  // UI animation AFTER
+  // ✅ UI AFTER (safe to delay)
   setTimeout(() => {
     document.getElementById("processingBox").style.display = "none";
     document.getElementById("successBox").style.display = "block";
