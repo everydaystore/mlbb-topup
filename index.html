@@ -423,35 +423,32 @@ document.addEventListener("DOMContentLoaded", () => {
     await signOut(auth);
   };
 
-  document.getElementById("topLoginBtn").onclick = () => alert("CLICK WORKS");
+  document.getElementById("topLoginBtn").onclick = () => {
+    doGoogleLogin();
+  };
 
 });
-
 // AUTH STATE CHANGE
 onAuthStateChanged(auth, (user) => {
- 
   const emailInput = document.getElementById("email");
 
   if (user) {
-document.getElementById("topLoginBtn").style.display = "none";
-document.getElementById("topLogoutBtn").style.display = "inline-block";
+    document.getElementById("topLoginBtn").style.display = "none";
+    document.getElementById("topLogoutBtn").style.display = "inline-block";
     document.getElementById("userInfo").innerText =
       "Logged in as: " + user.email;
 
-    // ✅ AUTO FILL EMAIL
     emailInput.value = user.email;
-
   } else {
-document.getElementById("topLoginBtn").sty
-le.display = "inline-block";
-document.getElementById("topLogoutBtn").st
-yle.display = "none";
-document.getElementById("userInfo").innerT
-ext = "";
-
-    // ❌ CLEAR EMAIL ON LOGOUT
+    document.getElementById("topLoginBtn").style.display = "inline-block";
+    document.getElementById("topLogoutBtn").style.display = "none";
+    document.getElementById("userInfo").innerText = "";
     emailInput.value = "";
   }
+});
+
+    
+
 });
 </script>
   <!-- LIVE BUYERS SCRIPT -->
