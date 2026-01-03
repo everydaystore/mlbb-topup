@@ -78,7 +78,13 @@ button{
   overflow: hidden;
   box-sizing: border-box;
 }
-  #topAuth {
+.slider img,
+.top-banner img,
+header img {
+  pointer-events: none;
+}
+#topAuth {
+  pointer-events: auto;
   position: fixed;
   top: 12px;
   left: 12px;
@@ -269,11 +275,7 @@ function playSuccess() {
   document.getElementById("successSound").play();
 }
 </script>
-<div id="authBox" style="text-align:center; margin-bottom:12px;">
-  <button id="loginBtn">Sign in with Google</button>
-  <button id="logoutBtn" style="display:none;">Logout</button>
-  <p id="userInfo" style="font-size:13px;"></p>
-</div>
+
 <button id="orderBtn" type="button" style="position: relative; z-index: 10;">
   Order After Payment
 </button>
@@ -411,14 +413,14 @@ function doGoogleLogin() {
  const db = getFirestore(app);
  const storeRef = doc(db, "store", "store");
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => { 
 
-  document.getElementById("topLoginBtn").onclick = doGoogleLogin;
-
-  document.getElementById("topLogoutBtn").onclick = async () => {
+document.getElementById("topLogoutBtn").onclick = async () => {
     await signOut(auth);
   };
 
+document.getElementById("topLoginBtn").onclick = doGoogleLogin;
+  
 });
 
 // AUTH STATE CHANGE
