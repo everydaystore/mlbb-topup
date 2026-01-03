@@ -78,19 +78,21 @@ button{
   overflow: hidden;
   box-sizing: border-box;
 }
-/* 🔥 FORCE SIGN IN BUTTON TO BE CLICKABLE */
-#topAuth,
-#topAuth * {
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 100000;
-}
-
-/* ❌ Disable clicks ONLY on banner images, not containers */
+/* Disable clicks ONLY on banner images */
 .slider img,
 .top-banner img,
 header img {
   pointer-events: none;
+}
+  .slider {
+  pointer-events: none;
+}
+
+/* FORCE sign-in area to be clickable */
+#topAuth {
+  pointer-events: auto !important;
+  position: fixed;
+  z-index: 999999;
 }
 
 #topAuth button {
@@ -415,14 +417,14 @@ function doGoogleLogin() {
  const db = getFirestore(app);
  const storeRef = doc(db, "store", "store");
 
-document.addEventListener("DOMContentLoaded", () => { 
+document.addEventListener("DOMContentLoaded", () => {
 
-document.getElementById("topLogoutBtn").onclick = async () => {
+  document.getElementById("topLogoutBtn").onclick = async () => {
     await signOut(auth);
   };
 
-document.getElementById("topLoginBtn").onclick = doGoogleLogin;
-  
+  document.getElementById("topLoginBtn").onclick = () => alert("CLICK WORKS");
+
 });
 
 // AUTH STATE CHANGE
