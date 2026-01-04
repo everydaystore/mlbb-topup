@@ -84,14 +84,10 @@ button{
 header img {
   pointer-events: none;
 }
-  .slider {
-  pointer-events: none;
-}
 
 /* FORCE sign-in area to be clickable */
 #topAuth {
   pointer-events: auto !important;
-  position: fixed;
   z-index: 999999;
 }
 
@@ -166,6 +162,18 @@ button:active {
 
 .slider img.active {
   display: block;
+}
+  /* FORCE sign-in button to be clickable and on top */
+#topAuth {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 999999;   /* 🔥 higher than banners */
+  pointer-events: auto;
+}
+
+#topAuth button {
+  pointer-events: auto;
 }
 </style>
 </head>
@@ -417,28 +425,40 @@ function doGoogleLogin() {
   }
 }
 
- getRedirectResult(auth)
-   .then((result) => {
-     if (result && result.user) {
-       console.log("Google login success:", result.user.email);
-     }
-   })
-   .catch((error) => {
-     console.error("Redirect login error:", error);
-   });
+    window.doGoogleLogin = doGoogleLogin;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("topLoginBtn");
+  const logoutBtn = document.getElementById("topLogoutBtn");
+
+  if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
+      console.log("✅ Sign In button clicked");
+      doGoogleLogin();
+    });
+  } else {
+    console.error("❌ topLoginBtn not found");
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+  }
+});
+
+getRedirectResult(auth)
+  .then((result) => {
+    if (result && result.user) {
+      console.log("Google login success:", result.user.email);
+    }
+  })
+  .catch((error) => {
+    console.error("Redirect login error:", error);
+  });
 
  const db = getFirestore(app);
  const storeRef = doc(db, "store", "store");
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  document.getElementById("topLogoutBtn").onclick = async () => {
-    await signOut(auth);
-  };
-
-  document.getElementById("topLoginBtn").onclick = () => {
-    doGoogleLogin();
-  };
 
 });
 // AUTH STATE CHANGE
