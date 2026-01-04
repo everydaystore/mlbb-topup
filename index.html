@@ -283,7 +283,7 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-document.getElementById("orderBtn").onclick = () => {
+document.getElementById("orderBtn").addEventListener("click", () => {
   if (!auth.currentUser) {
     alert("Please sign in with Google first");
     return;
@@ -291,21 +291,27 @@ document.getElementById("orderBtn").onclick = () => {
 
   const orderId = "ORD-" + Date.now();
   document.getElementById("orderIdText").innerText = orderId;
-  document.getElementById("processingBox").style.display = "block";
 
+  const subject = encodeURIComponent("MLBB Order Confirmation");
   const body = encodeURIComponent(
     "Order ID: " + orderId +
-    "\nEmail: " + auth.currentUser.email
+    "\nEmail: " + auth.currentUser.email +
+    "\n\nPlease confirm my payment."
   );
 
-  window.location.href =
-    "mailto:everydaystore@gmail.com?subject=MLBB Order Confirmation&body=" + body;
+  // 🔥 MUST be direct user action
+  const mailLink =
+    "mailto:everydaystore@gmail.com?subject=" + subject + "&body=" + body;
+
+  window.open(mailLink, "_self");
+
+  document.getElementById("processingBox").style.display = "block";
 
   setTimeout(() => {
     document.getElementById("processingBox").style.display = "none";
     document.getElementById("successBox").style.display = "block";
   }, 1200);
-};
+});
 </script>
 
 </body>
