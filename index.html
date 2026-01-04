@@ -1,96 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Everyday Store</title>
 
 <style>
-  #processingBox {
-  display: none;
-  margin-top: 12px;
-  padding: 12px;
-  background: rgba(0,0,0,0.6);
-  color: #ffd54f;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 14px;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: cursive;
   background: linear-gradient(180deg, #050b1f, #0c1430);
   color: #fff;
-  overflow-x: hidden;
-}
-.container {
-  max-width: 420px;
-  width: 100%;
-  margin: 16px auto;
-  padding: 20px;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #bdbdbd;
-}
-h1{
-  text-align:center;
-}
-input,select,button{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius: 14px;
-  border:none;
-  font-size:15px;
-}
-  input {
-  background-clip: padding-box;
-}
- 
-button{
-  background:#2ecc71;
-  font-weight:bold;
-  cursor:pointer;
-}
-.qr-box {
-  width: 100%;
-  text-align: center;
-}
-#qrImage {
-  width: 220px;
-  max-width: 100%;
-  display: block;
-  margin: 12px auto;
-  padding: 12px;
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-/* Disable clicks ONLY on banner images */
-.slider img,
-.top-banner img,
-header img {
-  pointer-events: none;
 }
 
-/* FORCE sign-in area to be clickable */
+/* TOP AUTH */
 #topAuth {
-  pointer-events: auto !important;
+  position: fixed;
+  top: 12px;
+  left: 12px;
   z-index: 999999;
 }
-
 #topAuth button {
   background: #1abc9c;
   color: #fff;
@@ -101,20 +32,97 @@ header img {
   font-weight: bold;
   cursor: pointer;
 }
-.note{
-  font-size:13px;
-  text-align:center;
-  margin-top:10px;
-  color:#f1c40f;
+
+/* CONTAINER */
+.container {
+  max-width: 420px;
+  margin: 70px auto 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.35);
 }
-#processingBox,#successBox{
-  display:none;
-  text-align:center;
-  margin-top:12px;
+
+/* SLIDER */
+.slider {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 15px;
 }
-#successBox{
-  color:#2ecc71;
+.slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  pointer-events: none;
 }
+.slider img.active { display: block; }
+
+h1 { text-align: center; }
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+}
+
+input, select {
+  background: #111;
+  color: #fff;
+}
+
+button {
+  background: #2ecc71;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* QR */
+.qr-box {
+  text-align: center;
+}
+#qrImage {
+  width: 220px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 16px;
+  display: none;
+}
+
+/* INFO */
+.note {
+  text-align: center;
+  font-size: 13px;
+  color: #f1c40f;
+  margin-top: 10px;
+}
+
+#processingBox, #successBox {
+  display: none;
+  text-align: center;
+  margin-top: 12px;
+}
+
+#successBox { color: #2ecc71; }
+
+/* LIVE BUYERS */
+#liveBuyers {
+  margin: 12px 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* SOCIAL */
 .social-icons {
   display: flex;
   justify-content: center;
@@ -124,195 +132,68 @@ header img {
 .social-icons img {
   width: 44px;
   height: 44px;
-  object-fit: contain;
-}
-  .container {
-  background: rgba(0,0,0,0.35);
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-  .input, select {
-  background: #111;
-  color: #fff;
-}
-  /* Button press animation */
-button {
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-button:active {
-  transform: scale(0.96);
-  box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
-}
-  /* ===== TOP BANNER SLIDER ===== */
-.slider {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  position: relative;
-}
-.slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
-}
-
-.slider img.active {
-  display: block;
-}
-  /* FORCE sign-in button to be clickable and on top */
-#topAuth {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 999999;   /* 🔥 higher than banners */
-  pointer-events: auto;
-}
-
-#topAuth button {
-  pointer-events: auto;
 }
 </style>
 </head>
 
 <body>
-  <!-- TOP LEFT AUTH BUTTON -->
+
+<!-- TOP LOGIN -->
 <div id="topAuth">
   <button id="topLoginBtn">Sign In</button>
   <button id="topLogoutBtn" style="display:none;">Logout</button>
 </div>
+
 <div class="container">
-  
-<!-- TOP BANNER SLIDER -->
+
 <div class="slider">
   <img src="images/banner1.jpg" class="active">
   <img src="images/banner2.jpg">
   <img src="images/banner3.jpg">
 </div>
+
 <h1>Everyday Store</h1>
 
-<input 
-  type="tel"
-  id="playerID"
-  placeholder="Player ID (8–11 digits)"
-  inputmode="numeric"
-  maxlength="11"
->
-<input 
-  type="tel"
-  id="serverID"
-  placeholder="Server ID (3–5 digits)"
-  inputmode="numeric"
-  maxlength="5"
->
-<input 
-  type="tel"
-  id="mobile"
-  placeholder="Mobile Number"
-  inputmode="numeric"
-  maxlength="10"
->
-<input
-  type="email"
-  id="email"
-  placeholder="Email (auto-filled from Google)"
-  readonly
->
+<input type="tel" id="playerID" placeholder="Player ID (8-11 digits)" maxlength="11">
+<input type="tel" id="serverID" placeholder="Server ID (3-5 digits)" maxlength="5">
+<input type="tel" id="mobile" placeholder="Mobile Number" maxlength="10">
+
+<input type="email" id="email" placeholder="Email (auto-filled from Google)" readonly>
+
 <select id="pack" onchange="updateQR()">
   <option value="">Select Pack</option>
-
-  <!-- SMALL -->
-  <option value="mlbb-topup/qr/qr-3.png">3 Diamonds – ₹8</option>
-  <option value="mlbb-topup/qr/qr-5.png">5 Diamonds – ₹12</option>
-  <option value="mlbb-topup/qr/qr-11.png">11 Diamonds – ₹23</option>
-  <option value="mlbb-topup/qr/qr-22.png">22 Diamonds – ₹35</option>
-
-  <!-- MEDIUM -->
-  <option value="mlbb-topup/qr/qr-55.png">55 Diamonds – ₹81</option>
-  <option value="mlbb-topup/qr/qr-86.png">86 Diamonds – ₹118</option>
-  <option value="mlbb-topup/qr/qr-112.png">112 Diamonds – ₹155</option>
-  <option value="mlbb-topup/qr/qr-172.png">172 Diamonds – ₹227</option>
-  <option value="mlbb-topup/qr/qr-257.png">257 Diamonds – ₹319</option>
-
-  <!-- LARGE -->
-  <option value="mlbb-topup/qr/qr-514.png">514 Diamonds – ₹637</option>
-  <option value="mlbb-topup/qr/qr-706.png">706 Diamonds – ₹855</option>
-  <option value="mlbb-topup/qr/qr-1050.png">1050 Diamonds – ₹1275</option>
-  <option value="mlbb-topup/qr/qr-1135.png">1135 Diamonds – ₹1385</option>
-  <option value="mlbb-topup/qr/qr-2195.png">2195 Diamonds – ₹2560</option>
-  <option value="mlbb-topup/qr/qr-3688.png">3688 Diamonds – ₹4475</option>
-  <option value="mlbb-topup/qr/qr-5532.png">5532 Diamonds – ₹6450</option>
-  <option value="mlbb-topup/qr/qr-9288.png">9288 Diamonds – ₹10950</option>
-
-  <!-- WEEKLY -->
-  <option value="mlbb-topup/qr/qr-weekly-1.png">Weekly Pass – ₹133</option>
-  <option value="mlbb-topup/qr/qr-weekly-172.png">Weekly + 172 Diamonds – ₹360</option>
-  <option value="mlbb-topup/qr/qr-weekly-2.png">2 Weekly Passes – ₹266</option>
+  <option value="mlbb-topup/qr/qr-3.png">3 Diamonds - ₹8</option>
+  <option value="mlbb-topup/qr/qr-5.png">5 Diamonds - ₹12</option>
+  <option value="mlbb-topup/qr/qr-11.png">11 Diamonds - ₹23</option>
+  <option value="mlbb-topup/qr/qr-weekly-1.png">Weekly Pass - ₹133</option>
 </select>
-  
+
 <div class="qr-box">
-  <img id="qrImage" alt="QR Code" style="display:none;">
+  <img id="qrImage" alt="QR Code">
 </div>
 
-<div class="note">⚠️ QR appears automatically after selecting a pack</div>
-<!-- LIVE BUYERS -->
-<div id="liveBuyers" style="
-  margin:12px 0;
-  padding:10px;
-  background:rgba(0,0,0,0.45);
-  border-radius:12px;
-  font-size:14px;
-  color:#2ecc71;
-  text-align:center;
-  position: relative;
-  z-index: 1;
-">
-🟢 Someone purchased Weekly Pass
-  
-</div>
-  <!-- SOUNDS -->
-<audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-<audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/1116/1116-preview.mp3"></audio>
+<div class="note">⚠ QR appears after selecting a pack</div>
 
-<script>
-function playClick() {
-  document.getElementById("clickSound").currentTime = 0;
-  document.getElementById("clickSound").play();
-}
-function playSuccess() {
-  document.getElementById("successSound").currentTime = 0;
-  document.getElementById("successSound").play();
-}
-</script>
+<div id="liveBuyers">🟢 Someone purchased Weekly Pass</div>
 
-<button id="orderBtn" type="button" style="position: relative; z-index: 10;">
-  Order After Payment
-</button>
+<button id="orderBtn">Order After Payment</button>
 
 <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
-  <button style="background:#25D366; color:white; margin-top:10px; font-weight:bold;">
-    Join WhatsApp Store
-  </button>
+  <button style="background:#25D366;color:#fff;margin-top:10px;">Join WhatsApp Store</button>
 </a>
-   
 
-<div id="processingBox">⏳ Processing your order, please wait...</div>
-
+<div id="processingBox">⏳ Processing your order…</div>
 <div id="successBox">
   ✅ Order placed successfully<br>
   <b>Order ID:</b> <span id="orderIdText"></span><br>
   Please tap <b>SEND</b> in Gmail to confirm.
 </div>
 
-
 <div class="social-icons">
   <a href="https://www.instagram.com/everyday_store_official" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
   </a>
-  <a href="https://youtube.com/@everydaystore-d4w" target="_blank">
+  <a href="https://youtube.com/@everydaystore0" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
   </a>
   <a href="https://wa.me/917679393645" target="_blank">
@@ -320,38 +201,91 @@ function playSuccess() {
   </a>
 </div>
 
+</div>
 
+<!-- NORMAL SCRIPTS -->
 <script>
 function updateQR() {
   const pack = document.getElementById("pack");
   const qr = document.getElementById("qrImage");
-
   if (!pack.value) {
     qr.style.display = "none";
     return;
   }
-
-  // IMPORTANT: correct absolute path
   qr.src = "https://everydaystore.github.io/" + pack.value;
   qr.style.display = "block";
 }
+
+const buyers = [
+  "🟢 Someone bought 55 Diamonds",
+  "🟢 Weekly Pass purchased",
+  "🟢 Someone bought 172 Diamonds",
+  "🟢 Weekly Pass purchased just now"
+];
+let i = 0;
+setInterval(() => {
+  document.getElementById("liveBuyers").innerText = buyers[i++ % buyers.length];
+}, 3500);
+
+const slides = document.querySelectorAll(".slider img");
+let s = 0;
+setInterval(() => {
+  slides[s].classList.remove("active");
+  s = (s + 1) % slides.length;
+  slides[s].classList.add("active");
+}, 3000);
 </script>
- 
 
-<script>
-function sendOrder() {
-  const user = auth.currentUser;
-if (!user) {
-  alert("Please sign in with Google to place an order");
-  return;
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7ZSS8879-gQFikwUqy4y0rDja7DzboK",
+  authDomain: "everyday-store-6debb.firebaseapp.com",
+  projectId: "everyday-store-6debb"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+function doGoogleLogin() {
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  isMobile
+    ? signInWithRedirect(auth, provider)
+    : signInWithPopup(auth, provider);
 }
-  const playerID = document.getElementById("playerID").value.trim();
-  const serverID = document.getElementById("serverID").value.trim();
-  const mobile   = document.getElementById("mobile").value.trim();
-  const pack     = document.getElementById("pack");
 
-  if (!playerID || !serverID || !mobile || !pack.value) {
-    alert("Please fill all details and select a pack");
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("topLoginBtn").onclick = doGoogleLogin;
+  document.getElementById("topLogoutBtn").onclick = () => signOut(auth);
+});
+
+onAuthStateChanged(auth, user => {
+  const emailInput = document.getElementById("email");
+  if (user) {
+    topLoginBtn.style.display = "none";
+    topLogoutBtn.style.display = "inline-block";
+    emailInput.value = user.email;
+  } else {
+    topLoginBtn.style.display = "inline-block";
+    topLogoutBtn.style.display = "none";
+    emailInput.value = "";
+  }
+});
+
+document.getElementById("orderBtn").onclick = () => {
+  if (!auth.currentUser) {
+    alert("Please sign in with Google first");
     return;
   }
 
@@ -359,172 +293,20 @@ if (!user) {
   document.getElementById("orderIdText").innerText = orderId;
   document.getElementById("processingBox").style.display = "block";
 
-  // ✅ DEFINE FIRST
-  const email = auth.currentUser.email;
-  const subject = encodeURIComponent("MLBB Order Confirmation");
   const body = encodeURIComponent(
     "Order ID: " + orderId +
-    "\nPlayer ID: " + playerID +
-    "\nServer ID: " + serverID +
-    "\nMobile: " + mobile +
-    "\nEmail: " + email +
-    "\n\nPlease confirm my payment."
+    "\nEmail: " + auth.currentUser.email
   );
 
-  // ✅ OPEN GMAIL — MUST BE IMMEDIATE
   window.location.href =
-    "mailto:everydaystore@gmail.com?subject=" + subject + "&body=" + body;
+    "mailto:everydaystore@gmail.com?subject=MLBB Order Confirmation&body=" + body;
 
-  // ✅ UI AFTER (safe to delay)
   setTimeout(() => {
     document.getElementById("processingBox").style.display = "none";
     document.getElementById("successBox").style.display = "block";
   }, 1200);
-}
-</script>
-  
-  <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import {
-  getAuth,
-GoogleAuthProvider,
-signInWithRedirect,
-signInWithPopup,
-getRedirectResult,
-signOut,
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    
-const firebaseConfig = {
-  apiKey: "AIzaSyB7ZS8S879-gQFikWUyq4y0rDja7DzboK",
-  authDomain: "everyday-store-6debb.firebaseapp.com",
-  projectId: "everyday-store-6debb",
-  storageBucket: "everyday-store-6debb.appspot.com",
-  messagingSenderId: "488459400808",
-  appId: "1:488459400808:web:3f0f4b3eee464bed12ddd"
 };
-
- const app = initializeApp(firebaseConfig);
- const auth = getAuth(app);
- window.auth = auth;
- const provider = new GoogleAuthProvider();
-function doGoogleLogin() {
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    signInWithRedirect(auth, provider);
-  } else {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log("Popup login success:", result.user.email);
-      })
-      .catch((error) => {
-        console.error("Popup login error:", error);
-      });
-  }
-}
-
-    window.doGoogleLogin = doGoogleLogin;
-
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("topLoginBtn");
-  const logoutBtn = document.getElementById("topLogoutBtn");
-
-  if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
-      console.log("✅ Sign In button clicked");
-      doGoogleLogin();
-    });
-  } else {
-    console.error("❌ topLoginBtn not found");
-  }
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-    });
-  }
-});
-
-getRedirectResult(auth)
-  .then((result) => {
-    if (result && result.user) {
-      console.log("Google login success:", result.user.email);
-    }
-  })
-  .catch((error) => {
-    console.error("Redirect login error:", error);
-  });
-
- const db = getFirestore(app);
- const storeRef = doc(db, "store", "store");
-
-});
-// AUTH STATE CHANGE
-onAuthStateChanged(auth, (user) => {
-  const emailInput = document.getElementById("email");
-
-  if (user) {
-    document.getElementById("topLoginBtn").style.display = "none";
-    document.getElementById("topLogoutBtn").style.display = "inline-block";
-    document.getElementById("userInfo").innerText =
-      "Logged in as: " + user.email;
-
-    emailInput.value = user.email;
-  } else {
-    document.getElementById("topLoginBtn").style.display = "inline-block";
-    document.getElementById("topLogoutBtn").style.display = "none";
-    document.getElementById("userInfo").innerText = "";
-    emailInput.value = "";
-  }
-});
-
-    
-
-});
-</script>
-  <!-- LIVE BUYERS SCRIPT -->
-<script>
-const buyers = [
-  "🟢 Someone bought 55 Diamonds",
-  "🟢 Weekly Pass purchased",
-  "🟢 Someone bought 86 Diamonds",
-  "🟢 Order placed for 112 Diamonds",
-  "🟢 Someone purchased 172 Diamonds",
-  "🟢 Weekly Pass purchased just now",
-  "🟢 Someone bought 257 Diamonds"
-];
-
-let i = 0;
-const box = document.getElementById("liveBuyers");
-
-if (box) {
-  setInterval(() => {
-    i = (i + 1) % buyers.length;
-    box.innerText = buyers[i];
-  }, 3500);
-}
-</script>
-  <!-- AUTO SLIDER SCRIPT -->
-  <script>
-    const slides = document.querySelectorAll(".slider img");
-    let currentSlide = 0;
-
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, 3000);
-  </script>
-
-<script>
-document.getElementById("orderBtn").addEventListener("click", () => {
-  playClick();
-  sendOrder();
-});
 </script>
 
 </body>
 </html>
-
