@@ -176,7 +176,9 @@ button:active {
 
 <div id="liveBuyers">🟢 Someone purchased Weekly Pass</div>
 
-<button id="orderBtn">Order After Payment</button>
+<a id="mailLink" href="#">
+  <button id="orderBtn">Order After Payment</button>
+</a>
 
 <a href="https://chat.whatsapp.com/IHdIzkLFzgBJkjxjiUVBxD" target="_blank">
   <button style="background:#25D366;color:#fff;margin-top:10px;">Join WhatsApp Store</button>
@@ -299,12 +301,13 @@ document.getElementById("orderBtn").addEventListener("click", () => {
     "\n\nPlease confirm my payment."
   );
 
-  // 🔥 MUST be direct user action
-  const mailLink =
+  const mailto =
     "mailto:everydaystore@gmail.com?subject=" + subject + "&body=" + body;
 
-  window.open(mailLink, "_self");
+  // 🔥 SET LINK FIRST
+  document.getElementById("mailLink").href = mailto;
 
+  // UI feedback
   document.getElementById("processingBox").style.display = "block";
 
   setTimeout(() => {
