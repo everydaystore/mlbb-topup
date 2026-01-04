@@ -1,126 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Everyday Store – Admin Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg,#050b1f,#0c1430);
-      color:#fff;
-    }
-    .box{
-      max-width:420px;
-      margin:60px auto;
-      background:#0f1b3d;
-      padding:20px;
-      border-radius:14px;
-      box-shadow:0 10px 30px rgba(0,0,0,.4);
-    }
-    h2{
-      text-align:center;
-      margin-bottom:20px;
-    }
-    button{
-      width:100%;
-      padding:14px;
-      margin-top:12px;
-      border:none;
-      border-radius:10px;
-      font-size:15px;
-      font-weight:600;
-      cursor:pointer;
-    }
-    .open{background:#2ecc71;color:#000;}
-    .close{background:#e74c3c;color:#fff;}
-    .logout{background:#555;color:#fff;}
-    .status{
-      text-align:center;
-      margin-top:15px;
-      font-weight:bold;
-    }
-  </style>
+<title>Admin Panel</title>
+<style>
+body{font-family:Arial;background:#111;color:#fff}
+.card{border:1px solid #444;margin:10px;padding:10px;border-radius:8px}
+button{margin:4px;padding:6px 10px}
+</style>
 </head>
-
 <body>
 
-<div class="box" id="loginBox">
-  <h2>Admin Login</h2>
-  <input id="pass" type="password" placeholder="Enter Admin Password"
-    style="width:100%;padding:12px;border-radius:8px;border:none;">
-  <button onclick="login()" class="open">Login</button>
-</div>
+<h2>Orders</h2>
+<div id="orders"></div>
 
-<div class="box" id="adminBox" style="display:none;">
-  <h2>Store Control</h2>
-
-  <button class="open" onclick="setStore(true)">🟢 Open Store</button>
-  <button class="close" onclick="setStore(false)">🔴 Close Store</button>
-
-  <div class="status" id="statusText"></div>
-
-  <button class="logout" onclick="logout()">Logout</button>
-</div>
-<script>
-const ADMIN_PASS = "1234"; // change if you want
-
-function login() {
-  const pass = document.getElementById("pass").value;
-
-  if (pass === ADMIN_PASS) {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("adminBox").style.display = "block";
-  } else {
-    alert("Wrong password");
-  }
-}
-
-function logout() {
-  document.getElementById("adminBox").style.display = "none";
-  document.getElementById("loginBox").style.display = "block";
-  document.getElementById("pass").value = "";
-}
-</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, updateDoc, doc } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB7ZS8S879-gQFikWUyq4y0rDja7DzboK",
+  apiKey: "AIzaSyB7ZS8S879-gQFikWqy4yOrDja7DzboK",
   authDomain: "everyday-store-6debb.firebaseapp.com",
-  projectId: "everyday-store-6debb",
-  storageBucket: "everyday-store-6debb.appspot.com",
-  messagingSenderId: "488459400808",
-  appId: "1:488459400808:web:3f0f4b3eee464bed12ddd"
+  projectId: "everyday-store-6debb"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storeRef = doc(db, "store", "store");
 
-window.setStore = async function (open) {
-  console.log("STORE CLICKED:", open);
-
-  await setDoc(
-    storeRef,
-    { status: open ? "open" : "closed" },
-    { merge: true }
-  );
-
-  alert("Store set to: " + (open ? "OPEN" : "CLOSED"));
-};
-
-onSnapshot(storeRef, (snap) => {
-  if (!snap.exists()) return;
-  document.getElementById("statusText").innerText =
-    snap.data().status === "open"
-      ? "🟢 Store is OPEN"
-      : "🔴 Store is CLOSED";
+onSnapshot(collection(db,"orders"),snap=>{
+  orders.innerHTML="";
+  snap.forEach(d=>{
+    const o=d.data();
+    orders.innerHTML+=`
+    <div class="card">
+      <b>${o.orderId}</b><br>
+      ${o.email}<br>
+      ${o.pack}<br>
+      Status: ${o.status}<br>
+      <button onclick="upd('${d.id}','completed')">Complete</button>
+      <button onclick="upd('${d.id}','rejected')">Reject</button>
+    </div>`;
+  });
 });
-</script>
 
+window.upd=async(id,status)=>{
+  await updateDoc(doc(db,"orders",id),{status});
+};
+</script>
 </body>
 </html>
