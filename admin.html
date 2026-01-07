@@ -1,51 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Panel</title>
+<meta charset="UTF-8">
+<title>Mini MOBA Brawl</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
 <style>
-body{font-family:Arial;background:#111;color:#fff}
-.card{border:1px solid #444;margin:10px;padding:10px;border-radius:8px}
-button{margin:4px;padding:6px 10px}
+html,body{
+  margin:0;
+  padding:0;
+  background:#020617;
+  overflow:hidden;
+  touch-action:none;
+  font-family:sans-serif;
+}
+canvas{display:block}
+
+/* UI */
+#heroSelect{
+  position:fixed;
+  inset:0;
+  background:#020617;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+.heroBtn{
+  padding:15px 40px;
+  margin:10px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+}
+#tank{background:#0ea5e9}
+#fighter{background:#22c55e}
+#mage{background:#a855f7}
+
+#joystick{
+  position:fixed;
+  left:20px; bottom:20px;
+  width:120px; height:120px;
+  border-radius:50%;
+  background:rgba(255,255,255,.1)
+}
+#stick{
+  position:absolute;
+  width:40px;height:40px;
+  border-radius:50%;
+  background:#38bdf8;
+  left:40px;top:40px;
+}
+
+#ui{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+}
+.btn{
+  width:70px;height:70px;
+  border-radius:50%;
+  border:none;
+  margin:5px;
+  font-weight:bold;
+  color:white;
+}
+#atk{background:#ef4444}
+#s1{background:#3b82f6}
+#s2{background:#8b5cf6}
 </style>
 </head>
+
 <body>
 
-<h2>Orders</h2>
-<div id="orders"></div>
+<div id="heroSelect">
+  <h2>Select Hero</h2>
+  <button class="heroBtn" id="tank">Tank</button>
+  <button class="heroBtn" id="fighter">Fighter</button>
+  <button class="heroBtn" id="mage">Mage</button>
+</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, updateDoc, doc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<canvas id="game"></canvas>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB7ZS8S879-gQFikWqy4yOrDja7DzboK",
-  authDomain: "everyday-store-6debb.firebaseapp.com",
-  projectId: "everyday-store-6debb"
+<div id="joystick"><div id="stick"></div></div>
+
+<div id="ui">
+  <button class="btn" id="atk">ATK</button><br>
+  <button class="btn" id="s1">S1</button>
+  <button class="btn" id="s2">S2</button>
+</div>
+
+<script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+resize();addEventListener("resize",resize);
+
+let player;
+let gameStarted=false;
+
+class Entity{
+  constructor(x,y,hp,team){
+    this.x=x;this.y=y;this.hp=hp;
+    this.team=team;
+    this.size=20;
+  }
+}
+
+class Hero extends Entity{
+  constructor(x,y,stats){
+    super(x,y,stats.hp,"blue");
+    this.speed=stats.speed;
+    this.dmg=stats.dmg;
+    this.cd=0;
+  }
+  draw(){
+    ctx.save();
+    ctx.shadowBlur=15;
+    ctx.shadowColor="#38bdf8";
+    ctx.fillStyle="#38bdf8";
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,22,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.fillStyle="lime";
+    ctx.fillRect(this.x-20,this.y-35,this.hp/5,5);
+  }
+}
+
+class Minion extends Entity{
+  constructor(x,y,team){
+    super(x,y,40,team);
+    this.speed=1;
+  }
+  update(){
+    this.x+=this.team=="blue"?1:-1;
+  }
+  draw(){
+    ctx.fillStyle=this.team=="blue"?"#60a5fa":"#fb7185";
+    ctx.fillRect(this.x-8,this.y-8,16,16);
+  }
+}
+
+class Tower extends Entity{
+  constructor(x,y,team){
+    super(x,y,200,team);
+  }
+  draw(){
+    ctx.save();
+    ctx.shadowBlur=20;
+    ctx.shadowColor=this.team=="blue"?"#38bdf8":"#fb7185";
+    ctx.fillStyle=this.team=="blue"?"#1e40af":"#7f1d1d";
+    ctx.fillRect(this.x-20,this.y-40,40,80);
+    ctx.restore();
+  }
+}
+
+const blueTower=new Tower(250,canvas.height/2,"blue");
+const redTower=new Tower(canvas.width-250,canvas.height/2,"red");
+
+const bush={
+  x:canvas.width/2-100,
+  y:canvas.height/2-60,
+  w:200,
+  h:120
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let minions=[];
 
-onSnapshot(collection(db,"orders"),snap=>{
-  orders.innerHTML="";
-  snap.forEach(d=>{
-    const o=d.data();
-    orders.innerHTML+=`
-    <div class="card">
-      <b>${o.orderId}</b><br>
-      ${o.email}<br>
-      ${o.pack}<br>
-      Status: ${o.status}<br>
-      <button onclick="upd('${d.id}','completed')">Complete</button>
-      <button onclick="upd('${d.id}','rejected')">Reject</button>
-    </div>`;
+function spawnMinions(){
+  minions.push(new Minion(150,canvas.height/2,"blue"));
+  minions.push(new Minion(canvas.width-150,canvas.height/2,"red"));
+}
+setInterval(()=>gameStarted && spawnMinions(),3000);
+
+// Joystick
+let joy={x:0,y:0};
+const stick=document.getElementById("stick");
+document.getElementById("joystick").ontouchmove=e=>{
+  const r=e.target.getBoundingClientRect();
+  const t=e.touches[0];
+  joy.x=t.clientX-(r.left+r.width/2);
+  joy.y=t.clientY-(r.top+r.height/2);
+  joy.x=Math.max(-40,Math.min(40,joy.x));
+  joy.y=Math.max(-40,Math.min(40,joy.y));
+  stick.style.left=40+joy.x+"px";
+  stick.style.top=40+joy.y+"px";
+};
+document.getElementById("joystick").ontouchend=()=>{
+  joy.x=joy.y=0;
+  stick.style.left="40px";
+  stick.style.top="40px";
+};
+
+// Hero select
+document.getElementById("tank").onclick=()=>startGame({hp:200,dmg:8,speed:1.5});
+document.getElementById("fighter").onclick=()=>startGame({hp:120,dmg:12,speed:2});
+document.getElementById("mage").onclick=()=>startGame({hp:80,dmg:18,speed:1.8});
+
+function startGame(stats){
+  player=new Hero(100,canvas.height/2,stats);
+  document.getElementById("heroSelect").style.display="none";
+  gameStarted=true;
+}
+
+document.getElementById("atk").ontouchstart=()=>{
+  minions.forEach(m=>{
+    if(Math.hypot(player.x-m.x,player.y-m.y)<50)m.hp-=player.dmg;
   });
-});
-
-window.upd=async(id,status)=>{
-  await updateDoc(doc(db,"orders",id),{status});
 };
+
+function drawBush(){
+  ctx.fillStyle="rgba(34,197,94,.7)";
+  ctx.fillRect(bush.x,bush.y,bush.w,bush.h);
+}
+
+function inBush(e){
+  return e.x>bush.x&&e.x<bush.x+bush.w&&e.y>bush.y&&e.y<bush.y+bush.h;
+}
+
+function update(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Lane
+  ctx.fillStyle="#334155";
+  ctx.fillRect(0,canvas.height/2-80,canvas.width,160);
+
+  drawBush();
+
+  if(gameStarted){
+    player.x+=joy.x*0.05*player.speed;
+    player.y+=joy.y*0.05*player.speed;
+  }
+
+  blueTower.draw();
+  redTower.draw();
+
+  minions.forEach(m=>{
+    m.update();
+    m.draw();
+  });
+  minions=minions.filter(m=>m.hp>0);
+
+  if(player){
+    if(!inBush(player)) player.draw();
+  }
+
+  requestAnimationFrame(update);
+}
+update();
 </script>
+
 </body>
 </html>
